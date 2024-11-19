@@ -1201,7 +1201,7 @@ function TapperLibrary:CreateWindow(Settings)
 	local Passthrough = false
 	Topbar.Title.Text = Settings.Name
 
-	Main.Size = UDim2.new(0, 420, 0, 100)
+	Main.Size = UDim2.new(0, 420, 0, 300)
 	Main.Visible = true
 	Main.BackgroundTransparency = 1
 	if Main:FindFirstChild('Notice') then Main.Notice.Visible = false end
@@ -1411,7 +1411,7 @@ function TapperLibrary:CreateWindow(Settings)
 			KeyMain.Subtitle.Text = Settings.KeySettings.Subtitle or "Key System"
 			KeyMain.NoteMessage.Text = Settings.KeySettings.Note or "No instructions"
 
-			KeyMain.Size = UDim2.new(0, 467, 0, 375)
+			KeyMain.Size = UDim2.new(0, 467, 0, 75)
 			KeyMain.BackgroundTransparency = 1
 			KeyMain.Shadow.Image.ImageTransparency = 1
 			KeyMain.Title.TextTransparency = 1
