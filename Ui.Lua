@@ -1265,8 +1265,8 @@ function TapperLibrary:CreateWindow(Settings)
 			while true do
 				task.wait(math.random(180, 600))
 				TapperLibrary:Notify({
-					Title = "Tapper Interface",
-					Content = "Enjoying this UI library? Find it at sirius.menu/discord",
+					Title = "Tapper Discord",
+					Content = "Enjoying the scripts? Find it at https://discord.gg/dTmxQa2VTf",
 					Duration = 7,
 					Image = 4370033185,
 				})
