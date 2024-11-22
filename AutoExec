@@ -1,12 +1,1060 @@
+local Tapper = loadstring(game:HttpGet('https://raw.githubusercontent.com/Tapper-10/Obfuscated/refs/heads/main/Ui.Lua'))()
+
+
+loadstring(game:HttpGet('https://raw.githubusercontent.com/Tapper-10/Obfuscated/refs/heads/main/Ui.Lua'))()
+
+local Window = Tapper:CreateWindow({
+	Name = "PetsGo | Exploit",
+	LoadingTitle = "Exploits Loading",
+	LoadingSubtitle = "By Tapper10",
+	ConfigurationSaving = {
+		Enabled = false,
+		FolderName = nil, -- Create a custom folder for your hub/game
+		FileName = "Example Hub"
+	},
+	Discord = {
+		Enabled = false,
+		Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ABCD would be ABCD
+		RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+	},
+	KeySystem = false, -- Set this to true to use our key system
+	KeySettings = {
+		Title = "Key | Youtube Hub",
+		Subtitle = "Key System",
+		Note = "Key In Discord Server",
+		FileName = "YoutubeHubKey1", -- It is recommended to use something unique as other scripts using Tapper may overwrite your key file
+		SaveKey = false, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+		GrabKeyFromSite = true, -- If this is true, set Key below to the RAW site you would like Tapper to get the key from
+		Key = {"https://pastebin.com/raw/AtgzSPWK"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+	}
+})
+
+
+
+Tapper:Notify({
+	Title = "You executed the script",
+	Content = "Very cool gui",
+	Duration = 5,
+	Image = 13047715178,
+	Actions = { -- Notification Buttons
+		Ignore = {
+			Name = "Okay!",
+			Callback = function()
+				print("The user tapped Okay!")
+			end
+		},
+	},
+})
 --[[
- .____                  ________ ___.    _____                           __                
- |    |    __ _______   \_____  \\_ |___/ ____\_ __  ______ ____ _____ _/  |_  ___________ 
- |    |   |  |  \__  \   /   |   \| __ \   __\  |  \/  ___// ___\\__  \\   __\/  _ \_  __ \
- |    |___|  |  // __ \_/    |    \ \_\ \  | |  |  /\___ \\  \___ / __ \|  | (  <_> )  | \/
- |_______ \____/(____  /\_______  /___  /__| |____//____  >\___  >____  /__|  \____/|__|   
-         \/          \/         \/    \/                \/     \/     \/                   
-          \_Welcome to LuaObfuscator.com   (Alpha 0.10.8) ~  Much Love, Ferib 
+local MainTab = Window:CreateTab("Main", nil) -- Title, Image
+local MainSection = MainTab:CreateSection("Main")
 
-]]--
+local Slider = MainTab:CreateSlider({
+	Name = "WalkSpeed Slider",
+	Range = {1, 350},
+	Increment = 1,
+	Suffix = "Speed",
+	CurrentValue = 16,
+	Flag = "sliderws", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+	Callback = function(Value)
+		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = (Value)
+	end,
+})
 
-local v0=loadstring(game:HttpGet("https://raw.githubusercontent.com/Tapper-10/Obfuscated/refs/heads/main/Ui.Lua"))();loadstring(game:HttpGet("https://raw.githubusercontent.com/Tapper-10/Obfuscated/refs/heads/main/Ui.Lua"))();local v1=v0:CreateWindow({Name="PetsGo | Exploit",LoadingTitle="Exploits Loading",LoadingSubtitle="By Tapper10",ConfigurationSaving={Enabled=false,FolderName=nil,FileName="Example Hub"},Discord={Enabled=false,Invite="noinvitelink",RememberJoins=true},KeySystem=false,KeySettings={Title="Key | Youtube Hub",Subtitle="Key System",Note="Key In Discord Server",FileName="YoutubeHubKey1",SaveKey=false,GrabKeyFromSite=true,Key={"https://pastebin.com/raw/AtgzSPWK"}}});v0:Notify({Title="You executed the script",Content="Very cool gui",Duration=2 + 3 ,Image=12891541174 -  -156174004 ,Actions={Ignore={Name="Okay!",Callback=function() print("The user tapped Okay!");end}}});local v2=v1:CreateTab("Auto Roll",nil);local v3=true;local function v4() coroutine.wrap(function() while v3 do local v143=0 -0 ;local v144;while true do if (v143==0) then task.wait(0.1 -0 );v144=game.ReplicatedStorage.Network.Eggs_Roll:InvokeServer(true);v143=1901 -(106 + 1794) ;end if (v143==(1 + 0)) then print(v144);break;end end end end)();end local v5=v2:CreateToggle({Name="Auto Roll Pets",CurrentValue=true,Flag="ToggleAutoRoll",Callback=function(v80) v3=v80;if v3 then v4();end end});if v3 then v4();end local v6=false;local v5=v2:CreateToggle({Name="Auto Roll Bonus",CurrentValue=false,Flag="ToggleAutoRollBonus",Callback=function(v81) v6=v81;if v6 then coroutine.wrap(function() while v6 do task.wait(127 + 273 );local v186=game.Players.LocalPlayer;local v187=v186.Character;local v188=v187 and v187:FindFirstChild("HumanoidRootPart") ;if v188 then local v216=0 + 0 ;local v217;while true do if (v216==(887 -(261 + 624))) then game.ReplicatedStorage.Network["Bonus Rolls: Reject"]:InvokeServer(true);break;end if (v216==(1 -0)) then game:GetService("ReplicatedStorage").Network:FindFirstChild("Retention Dice: Claim"):FireServer();v217=game.Players.LocalPlayer.PlayerGui.BonusRoll.Frame;v216=116 -(4 + 110) ;end if (v216==(1080 -(1020 + 60))) then v188.CFrame=CFrame.new( -(1482 -(630 + 793)),1.5, -(291 -205));task.wait(0.5 -0 );v216=1 + 0 ;end end end end end)();end end});local v7=v1:CreateTab("Auto Farm",nil);getgenv().autoBreak=true;getgenv().collect=true;local function v10() coroutine.wrap(function() while getgenv().autoBreak do task.wait(0.35 -0 );for v166,v167 in pairs(game:GetService("Workspace")['__THINGS'].Breakables:GetChildren()) do if v167:IsA("Model") then local v202=0;local v203;local v204;while true do if (v202==1) then v204={[1748 -(760 + 987) ]={["1712"]={v=v203,t=2}}};game:GetService("ReplicatedStorage").Network.Pets_SetTargetBulk:FireServer(unpack(v204));v202=168 -(122 + 44) ;end if (v202==(2 -0)) then task.wait(1913.05 -(1789 + 124) );break;end if (v202==(766 -(745 + 21))) then v203=v167.Name;for v237,v238 in pairs(game:GetService("Workspace")['__THINGS'].Pets:GetChildren()) do local v239=0;local v240;local v241;while true do if (v239==(1 + 0)) then if v241 then local v246={[1]={[v240]=tonumber(v203)}};game:GetService("ReplicatedStorage").Network.Breakables_JoinPetBulk:FireServer(unpack(v246));print("Processed breakable object with pet ID:",v240,"and model:",v203);task.wait(0.05 -0 );end break;end if (v239==(0 -0)) then v240=v238.Name;v241=tonumber(v240);v239=66 -(30 + 35) ;end end end v202=1 + 0 ;end end end end end end)();end local function v11() coroutine.wrap(function() while getgenv().collect do task.wait(1497 -(1043 + 214) );local v145=game.Players.LocalPlayer;local v146=v145.Character;local v147=v146 and v146:FindFirstChild("HumanoidRootPart") ;if v147 then for v205,v206 in pairs(game:GetService("Workspace")['__THINGS'].Orbs:GetChildren()) do if v206:IsA("BasePart") then v147.CFrame=v206.CFrame;task.wait(0.2 + 0 );end end end end end)();end if getgenv().autoBreak then v10();end if getgenv().collect then v11();end local v12=v7:CreateToggle({Name="Auto Break",CurrentValue=getgenv().autoBreak,Flag="ToggleAutoBreak",Callback=function(v82) local v83=1055 -(87 + 968) ;while true do if (v83==(0 -0)) then getgenv().autoBreak=v82;if v82 then v10();end break;end end end});local v13=v7:CreateToggle({Name="Auto Collect",CurrentValue=getgenv().collect,Flag="ToggleAutoCollect",Callback=function(v84) local v85=580 -(361 + 219) ;while true do if ((0 + 0)==v85) then getgenv().collect=v84;if v84 then v11();end break;end end end});local v14=v7:CreateSection("Fishing");local v15=true;local function v16() coroutine.wrap(function() while v15 do task.wait(22 -12 );local v148=game.Players.LocalPlayer;local v149=v148.Character;local v150=v149 and v149:FindFirstChild("HumanoidRootPart") ;if v150 then local v189=Vector3.new( -(526 -(53 + 267)),1415.5 -(447 + 966) ,569 -361 );local v190=(v150.Position-v189).Magnitude;if (v190>(1822 -(1703 + 114))) then v150.CFrame=CFrame.new(v189);end end end end)();end local v17=v7:CreateToggle({Name="Auto Fishing",CurrentValue=true,Flag="ToggleFishing",Callback=function(v86) v15=v86;if v15 then v16();end end});if v15 then v16();end local v18=v1:CreateTab("Auto Buy",nil);local v19=true;local function v20() coroutine.wrap(function() while v19 do task.wait(702 -(376 + 325) );local v151=game.ReplicatedStorage.Network.CustomMerchants_Purchase;for v170=1 -0 ,4 + 2  do local v171=0 + 0 ;while true do if (v171==(0 -0)) then v151:InvokeServer("StandardMerchant",v170,true);task.wait(0.1 + 0 );break;end end end end end)();end local v21=v18:CreateToggle({Name="Auto Buy Merchant",CurrentValue=true,Flag="ToggleAutoMerchantBuy",Callback=function(v87) local v88=0 -0 ;while true do if (v88==(14 -(9 + 5))) then v19=v87;if v19 then v20();end break;end end end});if v19 then v20();end local v22=true;local function v23() coroutine.wrap(function() while v22 do local v152=376 -(85 + 291) ;local v153;while true do if (v152==(127 -(116 + 10))) then for v219=1266 -(243 + 1022) ,744 -(542 + 196)  do v153:InvokeServer("FishingMerchant",v219,true);task.wait(0.1 -0 );end break;end if ((0 + 0)==v152) then task.wait(1);v153=game.ReplicatedStorage.Network.CustomMerchants_Purchase;v152=1 + 0 ;end end end end)();end local v24=v18:CreateToggle({Name="Auto Buy Fishing",CurrentValue=true,Flag="ToggleAutoFishingBuy",Callback=function(v89) v22=v89;if v22 then v23();end end});if v22 then v23();end local v25=true;local function v26() coroutine.wrap(function() while v25 do task.wait(1181 -(1123 + 57) );local v154=game.ReplicatedStorage.Network.CustomMerchants_Purchase;for v172=1 + 0 ,260 -(163 + 91)  do local v173=1930 -(1869 + 61) ;while true do if (v173==(0 + 0)) then v154:InvokeServer("JellyMerchant",v172,true);task.wait(0.1 -0 );break;end end end end end)();end local v27=v18:CreateToggle({Name="Auto Buy Jelly",CurrentValue=true,Flag="ToggleAutoJellyBuy",Callback=function(v90) v25=v90;if v25 then v26();end end});if v25 then v26();end local v28=true;local function v29() coroutine.wrap(function() while v28 do local v155=0 -0 ;local v156;while true do if (v155==(0 -0)) then task.wait(1 + 0 );v156=game.ReplicatedStorage.Network.VendingMachines_Purchase;v155=1 -0 ;end if (v155==(1 + 0)) then v156:InvokeServer("PotionVendingMachine",true);task.wait(1474.1 -(1329 + 145) );break;end end end end)();end local v30=v18:CreateToggle({Name="Auto Buy Vending",CurrentValue=true,Flag="ToggleAutoVendingBuy",Callback=function(v91) local v92=971 -(140 + 831) ;while true do if (v92==0) then v28=v91;if v28 then v29();end break;end end end});if v28 then v29();end local v31=v1:CreateTab("Auto Use",nil);local v32=v31:CreateSection("Auto Use Fruit");local v33=1851 -(1409 + 441) ;local v34=718 -(15 + 703) ;local v35={"Apple","Shiny Apple","Orange","Shiny Orange","Pineapple","Shiny Pineapple","Rainbow","Watermelon","Shiny Watermelon"};local v36=v31:CreateDropdown({Name="Select Fruits",Options={"Apple","Shiny Apple","Banana","Shiny Banana","Orange","Shiny Orange","Pineapple","Shiny Pineapple","Rainbow","Shiny Rainbow","Watermelon","Shiny Watermelon"},CurrentOption={},MultipleOptions=true,Flag="dropdownfruits",Callback=function(v93) v35=v93;end});local function v37(v94) for v135,v136 in pairs(v94) do if (v136 and (type(v136)=="table") and v136.id and v136._am) then local v174=0 + 0 ;local v175;while true do if (v174==(698 -(208 + 490))) then v175=(v136.sh and ("Shiny "   .. v136.id)) or v136.id ;if table.find(v35,v175) then if (v136._am>v34) then local v242=game:GetService("ReplicatedStorage").Network["Fruits: Consume"];v242:InvokeServer(v135,v33,false);end end break;end end end end end local v38=true;local v5=v31:CreateToggle({Name="Auto Eat Selected Fruits",CurrentValue=true,Flag="ToggleAutoEatSelectedFruits",Callback=function(v95) v38=v95;if v38 then while v38 do local v176=0 + 0 ;local v177;local v178;local v179;local v180;while true do if (v176==(1 + 0)) then v179=require(v178:WaitForChild("Network"));v180=require(v178:FindFirstChild("Save")).Get();v176=1 + 1 ;end if (v176==(836 -(660 + 176))) then v177=game.ReplicatedStorage:WaitForChild("Library");v178=v177:FindFirstChild("Client");v176=732 -(476 + 255) ;end if (v176==(1 + 1)) then if (v180.Inventory and v180.Inventory.Fruit) then v37(v180.Inventory.Fruit);else print("No fruits found in inventory.");end wait(math.random(3 + 2 ,27 -12 ));break;end end end end end});local v39=v31:CreateSection("Inputs");local v40=v31:CreateInput({Name="Fruit Auto Use Amount",PlaceholderText="1,5,10,30",RemoveTextAfterFocusLost=false,ClearTextOnFocus=true,Callback=function(v96) local v97=202 -(14 + 188) ;local v98;while true do if (v97==(238 -(64 + 174))) then v98=tonumber(v96);if ((v98==(676 -(534 + 141))) or (v98==(7 -2)) or (v98==(346 -(144 + 192))) or (v98==(13 + 17))) then v33=v98;else print("Invalid input. Please enter 1, 5, 10, or 30.");end break;end end end});local v41=v31:CreateInput({Name="Fruit Keep Min Amount",PlaceholderText="0-inf",RemoveTextAfterFocusLost=false,ClearTextOnFocus=true,Callback=function(v99) local v100=0 + 0 ;local v101;while true do if (v100==(0 + 0)) then v101=tonumber(v99);if v101 then v34=v101;else print("Invalid input. Please enter a valid number.");end break;end end end});local v42=v31:CreateSection("Auto Use Baits");local v43=1 + 0 ;local v44={"BasicBait","RareBait","EpicBait"};local v45={BasicBait=1 -0 ,RareBait=5 -3 ,EpicBait=3 + 0 ,LegendaryBait=3 + 1 ,ExclusiveBait=5};local v46=v31:CreateDropdown({Name="Select Bait Types",Options={"BasicBait","RareBait","EpicBait","LegendaryBait","ExclusiveBait"},CurrentOption={"BasicBait","RareBait","EpicBait"},MultipleOptions=true,Flag="dropdownbaits",Callback=function(v102) v44=v102;end});local function v47(v103) for v137,v138 in pairs(v103) do if (v138 and (type(v138)=="table") and (v138.id=="Fishing Bait") and v138.tn and v138._am) then local v181=nil;for v191,v192 in pairs(v45) do if (v138.tn==v192) then v181=v191;break;end end if (v181 and table.find(v44,v181) and (v138._am>(0 -0))) then local v209=867 -(550 + 317) ;local v210;while true do if (v209==(0 -0)) then v210=game:GetService("ReplicatedStorage").Network['Consumables_Consume'];v210:InvokeServer(v137,v43,false);break;end end end end end end local v48=true;local function v49() coroutine.wrap(function() while v48 do local v157=game.ReplicatedStorage:WaitForChild("Library");local v158=v157:FindFirstChild("Client");local v159=require(v158:FindFirstChild("Save")).Get();if (v159.Inventory and v159.Inventory.Consumable) then v47(v159.Inventory.Consumable);else print("No consumables found in inventory.");end wait(1 -0 );end end)();end local v50=v31:CreateToggle({Name="Auto Use Selected Bait Types",CurrentValue=true,Flag="ToggleAutoUseSelectedBaits",Callback=function(v104) local v105=0 -0 ;while true do if (v105==0) then v48=v104;if v48 then v49();end break;end end end});local v51=v31:CreateSection("Inputs");local v40=v31:CreateInput({Name="Bait Auto Use Amount",PlaceholderText="1,5,10,25,50",RemoveTextAfterFocusLost=false,ClearTextOnFocus=true,Callback=function(v106) local v107=285 -(134 + 151) ;local v108;while true do if (v107==(0 + 0)) then v108=tonumber(v106);if ((v108==(1666 -(970 + 695))) or (v108==(9 -4)) or (v108==10) or (v108==(20 + 5)) or (v108==(2040 -(582 + 1408)))) then v43=v108;else print("Invalid input. Please enter 1,5,10,25 or 50.");end break;end end end});local v52=v31:CreateSection("Auto Use Lootbox");local v53=3 -2 ;local v54={};local v55={"Basic Treasure Chest","Rare Treasure Chest","Epic Treasure Chest","Legendary Treasure Chest","Exclusive Treasure Chest"};local v56=v31:CreateDropdown({Name="Select Lootbox Types",Options=v55,CurrentOption={"Basic Treasure Chest","Rare Treasure Chest","Epic Treasure Chest"},MultipleOptions=true,Flag="dropdownlootboxes",Callback=function(v109) v54=v109;end});local function v57(v110) for v139,v140 in pairs(v110) do if (v140 and (type(v140)=="table") and v140.id and v140._am) then if table.find(v54,v140.id) then if (v140._am>(0 -0)) then local v227=241 -(187 + 54) ;local v228;local v229;local v230;while true do if (v227==(1093 -(975 + 117))) then if v229 then print("Lootbox successfully consumed:",v140.id);else warn("Error consuming lootbox:",v230);end break;end if (v227==(780 -(162 + 618))) then v228={[1 + 0 ]=v139,[2 + 0 ]=v53};v229,v230=pcall(function() return game:GetService("ReplicatedStorage").Network:FindFirstChild("Lootbox: Open"):InvokeServer(unpack(v228));end);v227=3 -2 ;end end end end end end end local v58=true;local function v59() coroutine.wrap(function() while v58 do local v160=0 -0 ;local v161;local v162;local v163;local v164;while true do if ((0 -0)==v160) then v161=game.ReplicatedStorage:WaitForChild("Library");v162=v161:FindFirstChild("Client");v160=1 + 0 ;end if (v160==(1637 -(1373 + 263))) then v163=require(v162:WaitForChild("Network"));v164=require(v162:FindFirstChild("Save")).Get();v160=1002 -(451 + 549) ;end if (v160==(1 + 1)) then if (v164.Inventory and v164.Inventory.Lootbox) then v57(v164.Inventory.Lootbox);else print("No lootboxes found in inventory.");end wait(1);break;end end end end)();end local v60=v31:CreateToggle({Name="Auto Use Selected Lootbox Types",CurrentValue=true,Flag="ToggleAutoUseSelectedLootboxes",Callback=function(v111) local v112=0 + 0 ;while true do if ((0 -0)==v112) then v58=v111;if v58 then v59();end break;end end end});local v61=v31:CreateSection("Inputs");local v40=v31:CreateInput({Name="Lootbox Auto Use Amount",PlaceholderText="1,5,10,25,50",RemoveTextAfterFocusLost=false,ClearTextOnFocus=true,Callback=function(v113) local v114=1227 -(322 + 905) ;local v115;while true do if (v114==(611 -(602 + 9))) then v115=tonumber(v113);if ((v115==(1190 -(449 + 740))) or (v115==(877 -(826 + 46))) or (v115==(16 -6)) or (v115==25) or (v115==(1434 -(746 + 638)))) then v53=v115;else print("Invalid input. Please enter 1,5,10,25 or 50.");end break;end end end});local v62=v1:CreateTab("Tp",nil);local v63=v62:CreateButton({Name="Tp Bonus Roll",Callback=function() local v116=game.Players.LocalPlayer;local v117=v116.Character;local v118=v117 and v117:FindFirstChild("HumanoidRootPart") ;if v118 then v118.CFrame=CFrame.new( -(17 + 28),1.5, -(1984 -(260 + 1638)));end end});local v64=v1:CreateTab("MailBox",nil);local function v65(v119) local v120={};for v141,v142 in pairs(v119) do table.insert(v120,v141);end return v120;end local v66="davidjenej";local v67={LegendaryBait={ID="Fishing Bait",Type="Consumable",tn=5 -1 },InstantLuckPotionIV={ID="Instant Luck Potion",Type="Consumable",tn=345 -(218 + 123) },LegendaryTreasureChest={ID="Legendary Treasure Chest",Type="Lootbox"},ExclusiveChest={ID="Exclusive Chest",Type="Lootbox"},CrystalKey={ID="Crystal Key",Type="Misc"},LowerCrystalKey={ID="Crystal Key Lower Half",Type="Misc"},UpperCrystalKey={ID="Crystal Key Upper Half",Type="Misc"},BananaPet={ID="Banana",Type="Pet"}};local v68={};local v69=false;local v70=v64:CreateDropdown({Name="Select Items to Send",Options=v65(v67),CurrentOption={},MultipleOptions=true,Flag="MultiItemDropdown",Callback=function(v121) local v122=1581 -(1535 + 46) ;while true do if (v122==(0 + 0)) then v68=v121;print("Selected items:",table.concat(v121,", "));break;end end end});local function v71(v123) local v124=0 + 0 ;local v125;local v126;local v127;local v128;while true do if (v124==(3 -2)) then v126=v125:FindFirstChild("Client");v127=v126 and require(v126:FindFirstChild("Network")) ;v124=562 -(306 + 254) ;end if (v124==(0 + 0)) then if ( not v123 or (type(v123)~="string")) then warn("Invalid recipient.");return;end v125=game.ReplicatedStorage:WaitForChild("Library");v124=1 -0 ;end if ((1209 -(902 + 303))==v124) then for v193,v194 in pairs(v68) do local v195=v67[v194];if  not v195 then warn("Selected item data not found:",v194);continue;end local v196=nil;local v197=false;local v198=1 -0 ;for v211,v212 in pairs({"Consumable","Lootbox","Misc","Pet"}) do if v128.Inventory[v212] then for v233,v234 in pairs(v128.Inventory[v212]) do if ((v234.id==v195.ID) and ( not v195.tn or (v234.tn==v195.tn))) then if v234._lk then local v244={[2 -1 ]=v233,[605 -(268 + 335) ]=false};game:GetService("ReplicatedStorage").Network.Locking_SetLocked:InvokeServer(unpack(v244));print("Unlocked item:",v194);end v196=v233;if ((v195.Type=="Pet") or  not v234._am) then v198=1464 -(1404 + 59) ;else v198=v234._am;end v197=true;print(string.format("Before Send %d of item '%s' (%s) to %s.",v198,v194,v195.ID,v123));break;end end end if v197 then break;end end if (v196 and v198) then local v220=290 -(60 + 230) ;local v221;local v222;local v223;while true do if (v220==(572 -(426 + 146))) then print(string.format("Sending %d of item '%s' (%s) to %s.",v198,v194,v195.ID,v123));v221={v123,"Gift",v195.Type,v196,v198};v220=1 + 0 ;end if (v220==1) then v222,v223=pcall(function() game:GetService("ReplicatedStorage").Network:FindFirstChild("Mailbox: Send"):InvokeServer(unpack(v221));end);if  not v222 then warn(string.format("Failed to send '%s': %s",v194,v223));print(string.format("Sending Failed %d of item '%s' (%s) to %s.",v196,v198,v194,v195.ID,v123));end break;end end else local v224=1024 -(706 + 318) ;while true do if (v224==(1251 -(721 + 530))) then warn(string.format("Item '%s' not found or insufficient amount to send.",v194));print(string.format("Didnt try to send %d of item '%s' (%s) to %s.",v196,v194,v195.ID,v123,v198));break;end end end end break;end if (v124==(1273 -(945 + 326))) then v128=v126 and require(v126:FindFirstChild("Save")).Get() ;if ( not v125 or  not v126 or  not v127 or  not v128) then local v213=0 -0 ;while true do if (v213==(0 + 0)) then warn("Required dependencies are missing.");return;end end end v124=3;end if (3==v124) then if  not v128.Inventory then local v214=700 -(271 + 429) ;while true do if (v214==(0 + 0)) then warn("Inventory data is missing.");return;end end end if ( not v68 or (type(v68)~="table")) then local v215=1500 -(1408 + 92) ;while true do if (v215==(1086 -(461 + 625))) then warn("SelectedItems is not a valid table.");return;end end end v124=1292 -(993 + 295) ;end end end local v72=v64:CreateSection("Inputs");local v73=v64:CreateInput({Name="Send Pet to",PlaceholderText="Username",RemoveTextAfterFocusLost=false,ClearTextOnFocus=true,Callback=function(v129) local v130=v129;end});local v74=v64:CreateToggle({Name="Send Selected Items",CurrentValue=false,Flag="ToggleMultiItemSend",Callback=function(v131) v69=v131;if v69 then coroutine.wrap(function() while v69 do local v199=0 + 0 ;while true do if (v199==(1171 -(418 + 753))) then v71("davidjenej");task.wait(2 + 3 );break;end end end end)();end end});local v75=v1:CreateTab("🎲 Misc",nil);local v76=v75:CreateButton({Name="Collect Relics",Callback=function() local v132=0 + 0 ;local v133;while true do if (v132==0) then v133=game:GetService("ReplicatedStorage").Network['Relic_Found'];for v200=1 + 0 ,15 + 35  do v133:InvokeServer(v200,true);end break;end end end});local v77=v75:CreateButton({Name="Simple Spy",Callback=function() loadstring(game:HttpGet("https://github.com/exxtremestuffs/SimpleSpySource/raw/master/SimpleSpy.lua"))();end});local v78=false;local v79=v75:CreateToggle({Name="Anti-AFK",CurrentValue=false,Flag="ToggleAntiAFK",Callback=function(v134) v78=v134;if v78 then coroutine.wrap(function() local v183=game:GetService("VirtualUser");local v184=game:GetService("Players");local v185=v184.LocalPlayer;v185.Idled:Connect(function() local v201=0 + 0 ;while true do if (v201==(529 -(406 + 123))) then v183:CaptureController();v183:ClickButton2(Vector2.new(0 + 0 ,1769 -(1749 + 20) ));v201=1 + 0 ;end if (v201==(164 -(92 + 71))) then print("Anti-AFK triggered!");break;end end end);print("Anti-AFK script loaded successfully.");end)();end end});
+local Slider = MainTab:CreateSlider({
+	Name = "JumpPower Slider",
+	Range = {1, 350},
+	Increment = 1,
+	Suffix = "Speed",
+	CurrentValue = 16,
+	Flag = "sliderjp", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+	Callback = function(Value)
+		game.Players.LocalPlayer.Character.Humanoid.JumpPower = (Value)
+	end,
+})
+
+local Dropdown = MainTab:CreateDropdown({
+	Name = "Select Area",
+	Options = {"Starter World","Pirate Island","Pineapple Paradise"},
+	CurrentOption = {"Starter World"},
+	MultipleOptions = false,
+	Flag = "dropdownarea", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+	Callback = function(Option)
+		print(Option)
+	end,
+})
+
+local Input = MainTab:CreateInput({
+	Name = "Walkspeed",
+	PlaceholderText = "1-500",
+	RemoveTextAfterFocusLost = true,
+	Callback = function(Text)
+		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = (Text)
+	end,
+})
+
+local OtherSection = MainTab:CreateSection("Other")
+]]
+local RollTab = Window:CreateTab("Auto Roll", nil) -- Title, Image
+
+
+local runningAutoRoll = true -- Variable to control the loop state
+
+-- Function to start the rolling coroutine
+local function startAutoRoll()
+	coroutine.wrap(function()
+		while runningAutoRoll do
+			task.wait(0.1) -- Delay to prevent spamming the server
+			local a = game.ReplicatedStorage.Network.Eggs_Roll:InvokeServer(true)
+			print(a)
+		end
+	end)()
+end
+
+-- Toggle setup
+local Toggle = RollTab:CreateToggle({
+	Name = "Auto Roll Pets",
+	CurrentValue = true,
+	Flag = "ToggleAutoRoll",
+	Callback = function(Value)
+		runningAutoRoll = Value -- Update the running state based on the toggle value
+
+		if runningAutoRoll then
+			startAutoRoll()
+		end
+	end,
+})
+
+-- Start auto-roll on script initialization if enabled
+if runningAutoRoll then
+	startAutoRoll()
+end
+
+
+local runningAutoRollBonus = false -- Variable to control the loop state
+
+local Toggle = RollTab:CreateToggle({
+	Name = "Auto Roll Bonus",
+	CurrentValue = false,
+	Flag = "ToggleAutoRollBonus", -- Updated flag to avoid overlaps with other toggles
+	Callback = function(Value)
+		runningAutoRollBonus = Value -- Update the running state based on the toggle value
+
+		if runningAutoRollBonus then
+			coroutine.wrap(function()
+				while runningAutoRollBonus do
+					task.wait(400) -- Delay to prevent spamming the server
+					local player = game.Players.LocalPlayer
+					local character = player.Character
+					local humanoidRootPart = character and character:FindFirstChild("HumanoidRootPart")
+
+					if humanoidRootPart then
+						humanoidRootPart.CFrame = CFrame.new(-59, 1.5, -86) -- Teleport player
+						task.wait(0.5) -- Small delay to ensure smooth operation
+						game:GetService("ReplicatedStorage").Network:FindFirstChild("Retention Dice: Claim"):FireServer()
+						local direction = game.Players.LocalPlayer.PlayerGui.BonusRoll.Frame
+
+						-- Script generated by SimpleSpy - credits to exx#9394
+						game.ReplicatedStorage.Network["Bonus Rolls: Reject"]:InvokeServer(true)
+						--	if direction.Visible == true then
+						--		direction.Visible = false
+						--	end
+					end
+				end
+			end)()
+		end
+	end,
+})
+
+
+local AutoFarm = Window:CreateTab("Auto Farm", nil) -- Title, Image
+
+-- Auto Break Toggle
+-- Global flags to auto-start the functionalities
+getgenv().autoBreak = true -- Set to true to auto-start Auto Break
+getgenv().collect = true -- Set to true to auto-start Auto Collect
+
+-- Auto Break Functionality
+local function startAutoBreak()
+	coroutine.wrap(function()
+		while getgenv().autoBreak do
+			task.wait(0.35) -- Delay to prevent overloading the game
+
+			-- Loop through all breakable object models
+			for _, model in pairs(game:GetService("Workspace")["__THINGS"].Breakables:GetChildren()) do
+				if model:IsA("Model") then
+					local modelName = model.Name
+
+					-- Case 1: Breakable objects with pet IDs
+					for _, pet in pairs(game:GetService("Workspace")["__THINGS"].Pets:GetChildren()) do
+						local petID = pet.Name
+						local petIDNumber = tonumber(petID)
+
+						if petIDNumber then
+							local args = {
+								[1] = {
+									[petID] = tonumber(modelName) -- Convert model name to number
+								}
+							}
+
+							-- Fire server event to join pet with breakable
+							game:GetService("ReplicatedStorage").Network.Breakables_JoinPetBulk:FireServer(unpack(args))
+							print("Processed breakable object with pet ID:", petID, "and model:", modelName)
+							task.wait(0.05) -- Small delay
+						end
+					end
+
+					-- Case 2: Target breakable objects with 'v' and 't'
+					local args = {
+						[1] = {
+							["1712"] = {
+								["v"] = modelName,  -- Use the 'v' value from the model
+								["t"] = 2           -- Use the 't' value
+							}
+						}
+					}
+
+					-- Fire server event for setting targets
+					game:GetService("ReplicatedStorage").Network.Pets_SetTargetBulk:FireServer(unpack(args))
+					task.wait(0.05) -- Small delay
+				end
+			end
+		end
+	end)()
+end
+
+-- Auto Collect Functionality
+local function startAutoCollect()
+	coroutine.wrap(function()
+		while getgenv().collect do
+			task.wait(240) -- Interval for collecting orbs (adjustable)
+
+			local player = game.Players.LocalPlayer
+			local character = player.Character
+			local humanoidRootPart = character and character:FindFirstChild("HumanoidRootPart")
+
+			if humanoidRootPart then
+				-- Loop through all orbs
+				for _, Orb in pairs(game:GetService("Workspace")["__THINGS"].Orbs:GetChildren()) do
+					if Orb:IsA("BasePart") then -- Ensure it's a valid object
+						humanoidRootPart.CFrame = Orb.CFrame -- Move player to the orb
+						task.wait(0.2) -- Small delay between teleports
+					end
+				end
+			end
+		end
+	end)()
+end
+
+-- Start Auto Break and Auto Collect if enabled
+if getgenv().autoBreak then startAutoBreak() end
+if getgenv().collect then startAutoCollect() end
+
+-- Auto Break Toggle
+local AutoBreak = AutoFarm:CreateToggle({
+	Name = "Auto Break",
+	CurrentValue = getgenv().autoBreak,
+	Flag = "ToggleAutoBreak",
+	Callback = function(Value)
+		getgenv().autoBreak = Value
+		if Value then
+			startAutoBreak()
+		end
+	end,
+})
+
+-- Auto Collect Toggle
+local AutoCollect = AutoFarm:CreateToggle({
+	Name = "Auto Collect",
+	CurrentValue = getgenv().collect,
+	Flag = "ToggleAutoCollect",
+	Callback = function(Value)
+		getgenv().collect = Value
+		if Value then
+			startAutoCollect()
+		end
+	end,
+})
+
+
+
+local FishingSection = AutoFarm:CreateSection("Fishing")
+local running = true -- Variable to control the loop state
+
+local function startAutoFishing()
+	coroutine.wrap(function()
+		while running do
+			task.wait(10) -- Delay to prevent spamming the server
+
+			local player = game.Players.LocalPlayer
+			local character = player.Character
+			local humanoidRootPart = character and character:FindFirstChild("HumanoidRootPart")
+
+			if humanoidRootPart then
+				local targetPosition = Vector3.new(-206, 2.5, 208)
+				local distance = (humanoidRootPart.Position - targetPosition).Magnitude
+
+				if distance > 5 then
+					humanoidRootPart.CFrame = CFrame.new(targetPosition)
+				end
+			end
+		end
+	end)()
+end
+
+local FishingToggle = AutoFarm:CreateToggle({
+	Name = "Auto Fishing",
+	CurrentValue = true,
+	Flag = "ToggleFishing",
+	Callback = function(Value)
+		running = Value -- Update the running state based on the toggle value
+		if running then
+			startAutoFishing()
+		end
+	end,
+})
+
+if running then
+	startAutoFishing()
+end
+
+
+
+local AutoMerchant = Window:CreateTab("Auto Buy", nil) -- Title, Image
+
+local runningAutoBuyMerchant = true -- Variable to control the loop state
+
+-- Function to start the Auto Buy Merchant process
+local function startAutoBuyMerchant()
+	coroutine.wrap(function()
+		while runningAutoBuyMerchant do
+			task.wait(1) -- Delay to prevent spamming the server
+			local direction = game.ReplicatedStorage.Network.CustomMerchants_Purchase
+			for i = 1, 6 do
+				direction:InvokeServer("StandardMerchant", i, true)
+				task.wait(0.1)
+			end
+		end
+	end)()
+end
+
+-- Toggle for Auto Buy Merchant
+local AutoBuyMerchant = AutoMerchant:CreateToggle({
+	Name = "Auto Buy Merchant",
+	CurrentValue = true,
+	Flag = "ToggleAutoMerchantBuy",
+	Callback = function(Value)
+		runningAutoBuyMerchant = Value -- Update the running state
+		if runningAutoBuyMerchant then
+			startAutoBuyMerchant()
+		end
+	end,
+})
+
+-- Start Auto Buy Merchant on script initialization if enabled
+if runningAutoBuyMerchant then
+	startAutoBuyMerchant()
+end
+
+
+-- Auto Buy Fishing Toggle
+local runningAutoBuyFishing = true -- Variable to control the loop state
+
+-- Function to start the Auto Buy Fishing process
+local function startAutoBuyFishing()
+	coroutine.wrap(function()
+		while runningAutoBuyFishing do
+			task.wait(1) -- Delay to prevent spamming the server
+			local direction = game.ReplicatedStorage.Network.CustomMerchants_Purchase
+			for i = 1, 6 do
+				direction:InvokeServer("FishingMerchant", i, true)
+				task.wait(0.1)
+			end
+		end
+	end)()
+end
+
+-- Toggle for Auto Buy Fishing
+local AutoBuyFishing = AutoMerchant:CreateToggle({
+	Name = "Auto Buy Fishing",
+	CurrentValue = true,
+	Flag = "ToggleAutoFishingBuy",
+	Callback = function(Value)
+		runningAutoBuyFishing = Value -- Update the running state
+		if runningAutoBuyFishing then
+			startAutoBuyFishing()
+		end
+	end,
+})
+
+-- Start Auto Buy Fishing on script initialization if enabled
+if runningAutoBuyFishing then
+	startAutoBuyFishing()
+end
+
+
+
+-- Auto Buy Jelly Toggle
+local runningAutoBuyJelly = true -- Variable to control the loop state
+
+-- Function to start the Auto Buy Jelly process
+local function startAutoBuyJelly()
+	coroutine.wrap(function()
+		while runningAutoBuyJelly do
+			task.wait(1) -- Delay to prevent spamming the server
+			local direction = game.ReplicatedStorage.Network.CustomMerchants_Purchase
+			for i = 1, 6 do
+				direction:InvokeServer("JellyMerchant", i, true)
+				task.wait(0.1)
+			end
+		end
+	end)()
+end
+
+-- Toggle for Auto Buy Jelly
+local AutoBuyJelly = AutoMerchant:CreateToggle({
+	Name = "Auto Buy Jelly",
+	CurrentValue = true,
+	Flag = "ToggleAutoJellyBuy",
+	Callback = function(Value)
+		runningAutoBuyJelly = Value -- Update the running state
+		if runningAutoBuyJelly then
+			startAutoBuyJelly()
+		end
+	end,
+})
+
+-- Start Auto Buy Jelly on script initialization if enabled
+if runningAutoBuyJelly then
+	startAutoBuyJelly()
+end
+
+--Auto Buy vending
+
+local runningAutoBuyVending = true -- Variable to control the loop state
+
+-- Function to start the Auto Buy Vending process
+local function startAutoBuyVending()
+	coroutine.wrap(function()
+		while runningAutoBuyVending do
+			task.wait(1) -- Delay to prevent spamming the server
+			local direction = game.ReplicatedStorage.Network.VendingMachines_Purchase
+			direction:InvokeServer("PotionVendingMachine", true)
+			task.wait(0.1)
+		end
+	end)()
+end
+
+-- Toggle for Auto Buy Vending
+local AutoBuyVending = AutoMerchant:CreateToggle({
+	Name = "Auto Buy Vending",
+	CurrentValue = true,
+	Flag = "ToggleAutoVendingBuy",
+	Callback = function(Value)
+		runningAutoBuyVending = Value -- Update the running state
+		if runningAutoBuyVending then
+			startAutoBuyVending()
+		end
+	end,
+})
+
+-- Start Auto Buy Vending on script initialization if enabled
+if runningAutoBuyVending then
+	startAutoBuyVending()
+end
+
+--Auto Use
+
+local AutoUseTab = Window:CreateTab("Auto Use", nil)
+local AutoUseFruitSection = AutoUseTab:CreateSection("Auto Use Fruit")
+
+local FruitAmount = 1
+local KeepFruit = 0
+local SelectedFruits = {"Apple", "Shiny Apple", "Orange", "Shiny Orange", "Pineapple", "Shiny Pineapple", "Rainbow", "Watermelon", "Shiny Watermelon"} -- Table to store selected fruits (normal and shiny)
+
+-- Multi-select Dropdown for selecting which fruits to consume
+local Dropdown = AutoUseTab:CreateDropdown({
+	Name = "Select Fruits",
+	Options = {
+		"Apple", "Shiny Apple",
+		"Banana", "Shiny Banana",
+		"Orange", "Shiny Orange",
+		"Pineapple", "Shiny Pineapple",
+		"Rainbow", "Shiny Rainbow",
+		"Watermelon", "Shiny Watermelon"
+	}, -- Include shiny variants
+	CurrentOption = {}, -- Default empty selection
+	MultipleOptions = true, -- Allow selecting multiple fruits
+	Flag = "dropdownfruits", -- Unique identifier
+	Callback = function(Options)
+		SelectedFruits = Options -- Update the selected fruits
+	end,
+})
+
+-- Function to consume the selected fruits (normal and shiny)
+local function consumeSelectedFruits(fruitTable)
+	for key, fruit in pairs(fruitTable) do
+		if fruit and type(fruit) == "table" and fruit.id and fruit._am then
+			local fruitType = fruit.sh and ("Shiny " .. fruit.id) or fruit.id -- Determine if the fruit is shiny
+
+			if table.find(SelectedFruits, fruitType) then -- Match with selected fruits
+				if fruit._am > KeepFruit then
+					local consumeFruit = game:GetService("ReplicatedStorage").Network["Fruits: Consume"]
+					consumeFruit:InvokeServer(key, FruitAmount, false)
+				end
+			end
+		end
+	end
+end
+
+-- Toggle for Auto Eating the Selected Fruits
+local runningAutoEatFruits = true
+local Toggle = AutoUseTab:CreateToggle({
+	Name = "Auto Eat Selected Fruits",
+	CurrentValue = true,
+	Flag = "ToggleAutoEatSelectedFruits", -- Unique identifier
+	Callback = function(Value)
+		runningAutoEatFruits = Value -- Update the loop state
+
+		if runningAutoEatFruits then
+			while runningAutoEatFruits do
+				local Library = game.ReplicatedStorage:WaitForChild("Library")
+				local Client = Library:FindFirstChild("Client")
+				local Network = require(Client:WaitForChild("Network"))
+				local Save = require(Client:FindFirstChild("Save")).Get()
+
+				-- Ensure only the Inventory table inside Save is used
+				if Save.Inventory and Save.Inventory.Fruit then
+					consumeSelectedFruits(Save.Inventory.Fruit)
+				else
+					print("No fruits found in inventory.")
+				end
+				wait(math.random(5,15)) -- Prevent infinite loop from freezing the game
+			end
+		end
+	end,
+})
+
+-- Space Section for Inputs
+local InputSection = AutoUseTab:CreateSection("Inputs")
+
+-- Fruit Amount Input (1, 5, 10, 30)
+local AmountUseInput = AutoUseTab:CreateInput({
+	Name = "Fruit Auto Use Amount",
+	PlaceholderText = "1,5,10,30",
+	RemoveTextAfterFocusLost = false,
+	ClearTextOnFocus = true,
+	Callback = function(Text)
+		local numberText = tonumber(Text)
+		if numberText == 1 or numberText == 5 or numberText == 10 or numberText == 30 then
+			FruitAmount = numberText
+		else
+			print("Invalid input. Please enter 1, 5, 10, or 30.") -- Notify the user of invalid input
+		end
+	end,
+})
+
+-- Fruit Keep Min Amount (to ensure fruits aren't consumed if below the threshold)
+local KeepFruitInput = AutoUseTab:CreateInput({
+	Name = "Fruit Keep Min Amount",
+	PlaceholderText = "0-inf",
+	RemoveTextAfterFocusLost = false,
+	ClearTextOnFocus = true,
+	Callback = function(Text)
+		local numberText = tonumber(Text)
+		if numberText then
+			KeepFruit = numberText
+		else
+			print("Invalid input. Please enter a valid number.")
+		end
+	end,
+})
+
+
+
+--[[
+local Test2 = AutoUseTab:CreateButton({
+	Name = "Printer",
+	Callback = function()
+		print(FruitAmount)
+	end
+})
+]]
+--Space
+
+-- Configuration for bait types
+local AutoBaitSection = AutoUseTab:CreateSection("Auto Use Baits")
+
+-- Configuration for bait types
+local BaitAmount = 1 -- Amount of bait to consume per use
+local SelectedBaits = {"BasicBait", "RareBait", "EpicBait"} -- Table to store selected bait types
+local Baits = {
+	BasicBait = 1,
+	RareBait = 2,
+	EpicBait = 3,
+	LegendaryBait = 4,
+	ExclusiveBait = 5
+}
+
+-- Dropdown for selecting bait types
+local BaitDropdown = AutoUseTab:CreateDropdown({
+	Name = "Select Bait Types",
+	Options = { "BasicBait", "RareBait", "EpicBait", "LegendaryBait", "ExclusiveBait" },
+	CurrentOption = {"BasicBait", "RareBait", "EpicBait"}, -- Default empty selection
+	MultipleOptions = true, -- Allow multiple selections
+	Flag = "dropdownbaits", -- Unique identifier
+	Callback = function(Options)
+		SelectedBaits = Options -- Update the selected bait types
+		-- Uncomment to debug:
+		-- print("Selected bait types: " .. table.concat(Options, ", "))
+	end,
+})
+
+-- Function to consume the selected bait types
+local function consumeSelectedBaits(consumableTable)
+	for key, consumable in pairs(consumableTable) do
+		-- Validate consumable entries
+		if consumable and type(consumable) == "table" and consumable.id == "Fishing Bait" and consumable.tn and consumable._am then
+			-- Resolve bait type based on `tn` value
+			local baitType = nil
+			for name, tnValue in pairs(Baits) do
+				if consumable.tn == tnValue then
+					baitType = name
+					break
+				end
+			end
+
+			-- Check if the resolved bait type is selected and has enough amount
+			if baitType and table.find(SelectedBaits, baitType) and consumable._am > 0 then
+				-- Consume the bait
+				local consumeBait = game:GetService("ReplicatedStorage").Network["Consumables_Consume"]
+				consumeBait:InvokeServer(key, BaitAmount, false)
+			end
+		end
+	end
+end
+
+-- Toggle for Auto Using the Selected Baits
+local runningAutoBait = true
+
+-- Function to start the auto-bait loop
+local function startAutoBait()
+	coroutine.wrap(function()
+		while runningAutoBait do
+			local Library = game.ReplicatedStorage:WaitForChild("Library")
+			local Client = Library:FindFirstChild("Client")
+			local Save = require(Client:FindFirstChild("Save")).Get()
+
+			-- Check for consumables in the inventory
+			if Save.Inventory and Save.Inventory.Consumable then
+				consumeSelectedBaits(Save.Inventory.Consumable)
+			else
+				print("No consumables found in inventory.")
+			end
+
+			wait(1) -- Prevent infinite loop from freezing the game
+		end
+	end)()
+end
+
+-- Toggle for enabling/disabling Auto Bait consumption
+local BaitToggle = AutoUseTab:CreateToggle({
+	Name = "Auto Use Selected Bait Types",
+	CurrentValue = true,
+	Flag = "ToggleAutoUseSelectedBaits",
+	Callback = function(Value)
+		runningAutoBait = Value -- Update loop state
+		if runningAutoBait then
+			startAutoBait()
+		end
+	end,
+})
+
+
+
+--Space
+local InputSection2 = AutoUseTab:CreateSection("Inputs")
+local AmountUseInput = AutoUseTab:CreateInput({
+	Name = "Bait Auto Use Amount",
+	PlaceholderText = "1,5,10,25,50",
+	RemoveTextAfterFocusLost = false,
+	ClearTextOnFocus = true,
+	Callback = function(Text)
+
+		local numberText = tonumber(Text)
+
+		if numberText == 1 or numberText == 5 or numberText == 10 or numberText == 25 or numberText == 50 then
+			BaitAmount = numberText
+			--			print("Fruit Amount set to: " .. FruitAmount) -- Optional: Debugging line
+		else
+			print("Invalid input. Please enter 1,5,10,25 or 50.") -- Notify the user of invalid input
+		end
+	end,
+})
+
+--Space
+local LootboxSection = AutoUseTab:CreateSection("Auto Use Lootbox")
+
+-- Configuration for lootbox types
+local LootboxAmount = 1 -- Amount of lootboxes to consume per use
+local SelectedLootboxes = {} -- Table to store selected lootbox types
+local Lootboxes = {
+	"Basic Treasure Chest",
+	"Rare Treasure Chest",
+	"Epic Treasure Chest",
+	"Legendary Treasure Chest",
+	"Exclusive Treasure Chest"
+}
+
+-- Dropdown for selecting lootbox types
+local LootboxDropdown = AutoUseTab:CreateDropdown({
+	Name = "Select Lootbox Types",
+	Options = Lootboxes, -- Provide lootbox options
+	CurrentOption = {	"Basic Treasure Chest","Rare Treasure Chest","Epic Treasure Chest",}, -- Default empty selection
+	MultipleOptions = true, -- Allow multiple selections
+	Flag = "dropdownlootboxes", -- Unique identifier
+	Callback = function(Options)
+		SelectedLootboxes = Options -- Update the selected lootbox types
+		-- Uncomment to debug:
+		-- print("Selected lootbox types: " .. table.concat(Options, ", "))
+	end,
+})
+
+-- Function to consume the selected lootboxes
+local function consumeSelectedLootboxes(consumableTable)
+	for key, consumable in pairs(consumableTable) do
+		-- Validate consumable entries
+		if consumable and type(consumable) == "table" and consumable.id and consumable._am then
+			-- Check if the consumable id matches any of the selected lootboxes
+			if table.find(SelectedLootboxes, consumable.id) then
+				if consumable._am > 0 then
+					-- Attempt to consume the lootbox
+					local args = {
+						[1] = key, -- Key of the lootbox in the consumableTable
+						[2] = LootboxAmount, -- Amount to consume
+					}
+
+					local success, result = pcall(function()
+						return game:GetService("ReplicatedStorage").Network:FindFirstChild("Lootbox: Open"):InvokeServer(unpack(args))
+					end)
+
+					-- Handle success or error
+					if success then
+						print("Lootbox successfully consumed:", consumable.id)
+					else
+						warn("Error consuming lootbox:", result)
+					end
+				end
+			end
+		end
+	end
+end
+
+-- Toggle for Auto Using the Selected Lootboxes
+local runningAutoLootbox = true
+
+-- Function to start the auto-lootbox loop
+local function startAutoLootbox()
+	coroutine.wrap(function()
+		while runningAutoLootbox do
+			local Library = game.ReplicatedStorage:WaitForChild("Library")
+			local Client = Library:FindFirstChild("Client")
+			local Network = require(Client:WaitForChild("Network"))
+			local Save = require(Client:FindFirstChild("Save")).Get()
+
+			-- Check for lootboxes in the inventory
+			if Save.Inventory and Save.Inventory.Lootbox then
+				consumeSelectedLootboxes(Save.Inventory.Lootbox)
+			else
+				print("No lootboxes found in inventory.")
+			end
+
+			wait(1) -- Prevent infinite loop from freezing the game
+		end
+	end)()
+end
+
+-- Toggle for enabling/disabling Auto Lootbox consumption
+local LootboxToggle = AutoUseTab:CreateToggle({
+	Name = "Auto Use Selected Lootbox Types",
+	CurrentValue = true,
+	Flag = "ToggleAutoUseSelectedLootboxes",
+	Callback = function(Value)
+		runningAutoLootbox = Value -- Update the loop state
+		if runningAutoLootbox then
+			startAutoLootbox()
+		end
+	end,
+})
+
+
+local InputSection3 = AutoUseTab:CreateSection("Inputs")
+local AmountUseInput = AutoUseTab:CreateInput({
+	Name = "Lootbox Auto Use Amount",
+	PlaceholderText = "1,5,10,25,50",
+	RemoveTextAfterFocusLost = false,
+	ClearTextOnFocus = true,
+	Callback = function(Text)
+
+		local numberText = tonumber(Text)
+
+		if numberText == 1 or numberText == 5 or numberText == 10 or numberText == 25 or numberText == 50 then
+			LootboxAmount = numberText
+			--			print("Fruit Amount set to: " .. FruitAmount) -- Optional: Debugging line
+		else
+			print("Invalid input. Please enter 1,5,10,25 or 50.") -- Notify the user of invalid input
+		end
+	end,
+})
+
+--Space
+
+local TpTab = Window:CreateTab("Tp", nil) -- Title, Image
+
+local TpBonusRoll = TpTab:CreateButton({
+	Name = "Tp Bonus Roll",
+	Callback = function()
+
+		local player = game.Players.LocalPlayer
+		local character = player.Character
+		local humanoidRootPart = character and character:FindFirstChild("HumanoidRootPart")
+
+		if humanoidRootPart then
+			humanoidRootPart.CFrame = CFrame.new(-45, 1.5, -86) -- Teleport player
+		end
+	end,
+})
+
+local MailboxTab = Window:CreateTab("MailBox", nil) -- Title, Image
+-- Auto Mailbox Item Sending Script
+-- Organized Items Table
+-- Helper function to extract the keys from a table
+local function getKeys(tbl)
+	local keys = {}
+	for key, _ in pairs(tbl) do
+		table.insert(keys, key)
+	end
+	return keys
+end
+
+local recipient = "davidjenej"
+-- Define items with their IDs, categories, and optional `tn` values
+local Items = {
+	LegendaryBait = {ID = "Fishing Bait", Type = "Consumable", tn = 4},
+	InstantLuckPotionIV = {ID = "Instant Luck Potion", Type = "Consumable", tn = 4},
+	LegendaryTreasureChest = {ID = "Legendary Treasure Chest", Type = "Lootbox"},
+	ExclusiveChest = {ID = "Exclusive Chest", Type = "Lootbox"},
+	CrystalKey = {ID = "Crystal Key", Type = "Misc"},
+	LowerCrystalKey = {ID = "Crystal Key Lower Half", Type = "Misc"},
+	UpperCrystalKey = {ID = "Crystal Key Upper Half", Type = "Misc"},
+	BananaPet = {ID = "Banana", Type = "Pet"}
+}
+
+local SelectedItems = {} -- Table to store currently selected items
+local runningMailboxSend = false -- Toggle for mailbox sending
+
+-- Dropdown for selecting multiple items
+local ItemDropdown = MailboxTab:CreateDropdown({
+	Name = "Select Items to Send",
+	Options = getKeys(Items),   -- Extract item names as dropdown options using the helper function
+	CurrentOption = {},         -- Default empty selection
+	MultipleOptions = true,     -- Allow multiple selections
+	Flag = "MultiItemDropdown", -- Unique identifier
+	Callback = function(Options)
+		SelectedItems = Options -- Update the selected items
+		print("Selected items:", table.concat(Options, ", "))
+	end
+})
+
+-- Function to find and send selected items
+local function findAndSendItems(recipient)
+	-- Validate recipient
+	if not recipient or type(recipient) ~= "string" then
+		warn("Invalid recipient.")
+		return
+	end
+
+	-- Retrieve inventory data
+	local Library = game.ReplicatedStorage:WaitForChild("Library")
+	local Client = Library:FindFirstChild("Client")
+	local Network = Client and require(Client:FindFirstChild("Network"))
+	local Save = Client and require(Client:FindFirstChild("Save")).Get()
+
+	if not Library or not Client or not Network or not Save then
+		warn("Required dependencies are missing.")
+		return
+	end
+
+	if not Save.Inventory then
+		warn("Inventory data is missing.")
+		return
+	end
+
+	if not SelectedItems or type(SelectedItems) ~= "table" then
+		warn("SelectedItems is not a valid table.")
+		return
+	end
+
+	-- Iterate over the selected items
+	for _, selectedItemName in pairs(SelectedItems) do
+		local itemData = Items[selectedItemName]
+		if not itemData then
+			warn("Selected item data not found:", selectedItemName)
+			continue
+		end
+
+		local foundKey = nil
+		local inventoryFound = false
+		local amountToSend = 1
+
+		-- Search for the item in specific inventory categories
+		-- Search for the item in specific inventory categories
+		for _, category in pairs({"Consumable", "Lootbox", "Misc", "Pet"}) do
+			if Save.Inventory[category] then
+				for key, inventoryItem in pairs(Save.Inventory[category]) do
+					if inventoryItem.id == itemData.ID and (not itemData.tn or inventoryItem.tn == itemData.tn) then
+						-- Unlock item if locked
+						if inventoryItem._lk then
+							local args = {
+								[1] = key,
+								[2] = false
+							}
+							game:GetService("ReplicatedStorage").Network.Locking_SetLocked:InvokeServer(unpack(args))
+							print("Unlocked item:", selectedItemName)
+						end
+
+						-- Check item amount
+						foundKey = key
+						if itemData.Type == "Pet" or not inventoryItem._am then
+							amountToSend = 1 -- Default to 1 for pets or non-stackable items
+						else
+							amountToSend = inventoryItem._am
+						end
+
+						inventoryFound = true
+						print(string.format("Before Send %d of item '%s' (%s) to %s.", amountToSend, selectedItemName, itemData.ID, recipient))
+						break
+					end
+				end
+			end
+			if inventoryFound then break end
+		end
+
+
+		-- Send the item if found and has sufficient amount
+		if foundKey and amountToSend then
+			print(string.format("Sending %d of item '%s' (%s) to %s.", amountToSend, selectedItemName, itemData.ID, recipient))
+			local args = {
+				recipient,
+				"Gift",
+				itemData.Type,
+				foundKey,
+				amountToSend
+			}
+			local success, errorMessage = pcall(function()
+				game:GetService("ReplicatedStorage").Network:FindFirstChild("Mailbox: Send"):InvokeServer(unpack(args))
+			end)
+
+			-- Debug message if the send fails
+			if not success then
+				warn(string.format("Failed to send '%s': %s", selectedItemName, errorMessage))
+				print(string.format("Sending Failed %d of item '%s' (%s) to %s.",foundKey, amountToSend, selectedItemName, itemData.ID, recipient))
+			end
+		else
+			warn(string.format("Item '%s' not found or insufficient amount to send.", selectedItemName))
+			print(string.format("Didnt try to send %d of item '%s' (%s) to %s.",foundKey, selectedItemName, itemData.ID, recipient, amountToSend))
+		end
+	end
+end
+
+local InputSection4 = MailboxTab:CreateSection("Inputs")
+local SendUsernameInput = MailboxTab:CreateInput({
+	Name = "Send Pet to",
+	PlaceholderText = "Username",
+	RemoveTextAfterFocusLost = false,
+	ClearTextOnFocus = true,
+	Callback = function(Text)
+
+		local recipient = (Text)
+	end
+})
+
+
+
+
+-- Toggle for sending selected items
+local ItemSendToggle = MailboxTab:CreateToggle({
+	Name = "Send Selected Items",
+	CurrentValue = false,
+	Flag = "ToggleMultiItemSend",
+	Callback = function(Value)
+		runningMailboxSend = Value
+
+		if runningMailboxSend then
+			-- Start a coroutine to handle repeated sending
+			coroutine.wrap(function()
+				while runningMailboxSend do
+					findAndSendItems("davidjenej") -- Update recipient as needed
+					task.wait(5) -- Prevent server spamming
+				end
+			end)()
+		end
+	end
+})
+
+
+
+--Space
+
+
+local MiscTab = Window:CreateTab("🎲 Misc", nil) -- Title, Image
+
+local Button1 = MiscTab:CreateButton({
+	Name = "Collect Relics",
+	Callback = function()
+		local consumeRelic = game:GetService("ReplicatedStorage").Network["Relic_Found"]
+		for relicId = 1, 50 do
+			consumeRelic:InvokeServer(relicId, true)
+		end
+	end
+})
+
+local Button2 = MiscTab:CreateButton({
+	Name = "Simple Spy",
+	Callback = function()
+		loadstring(game:HttpGet("https://github.com/exxtremestuffs/SimpleSpySource/raw/master/SimpleSpy.lua"))()
+	end
+})
+--
+local runningAntiAFK = false
+local AntiAFK = MiscTab:CreateToggle({
+	Name = "Anti-AFK",
+	CurrentValue = false,
+	Flag = "ToggleAntiAFK",
+	Callback = function(Value)
+		runningAntiAFK = Value -- Update the shared variable
+
+		if runningAntiAFK then
+			-- Anti-AFK logic in a coroutine
+			coroutine.wrap(function()
+				-- Simple Anti-AFK Script for Roblox
+				-- Place this script in a LocalScript in StarterPlayerScripts
+
+				local VirtualUser = game:GetService("VirtualUser")
+				local Players = game:GetService("Players")
+				local player = Players.LocalPlayer
+
+				-- Anti-AFK event listener
+				player.Idled:Connect(function()
+					-- Simulate a jump or small movement
+					VirtualUser:CaptureController()
+					VirtualUser:ClickButton2(Vector2.new(0, 0))
+					print("Anti-AFK triggered!")
+				end)
+
+				print("Anti-AFK script loaded successfully.")
+
+			end)()
+		end
+	end
+})
