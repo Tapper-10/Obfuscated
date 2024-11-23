@@ -328,7 +328,7 @@ local runningAutoBuyMerchant = true -- Variable to control the loop state
 local function startAutoBuyMerchant()
 	coroutine.wrap(function()
 		while runningAutoBuyMerchant do
-			task.wait(1) -- Delay to prevent spamming the server
+			task.wait(3) -- Delay to prevent spamming the server
 			local direction = game.ReplicatedStorage.Network.CustomMerchants_Purchase
 			for i = 1, 6 do
 				direction:InvokeServer("StandardMerchant", i, true)
@@ -364,7 +364,7 @@ local runningAutoBuyFishing = true -- Variable to control the loop state
 local function startAutoBuyFishing()
 	coroutine.wrap(function()
 		while runningAutoBuyFishing do
-			task.wait(1) -- Delay to prevent spamming the server
+			task.wait(3) -- Delay to prevent spamming the server
 			local direction = game.ReplicatedStorage.Network.CustomMerchants_Purchase
 			for i = 1, 6 do
 				direction:InvokeServer("FishingMerchant", i, true)
@@ -401,7 +401,7 @@ local runningAutoBuyJelly = true -- Variable to control the loop state
 local function startAutoBuyJelly()
 	coroutine.wrap(function()
 		while runningAutoBuyJelly do
-			task.wait(1) -- Delay to prevent spamming the server
+			task.wait(3) -- Delay to prevent spamming the server
 			local direction = game.ReplicatedStorage.Network.CustomMerchants_Purchase
 			for i = 1, 6 do
 				direction:InvokeServer("JellyMerchant", i, true)
@@ -437,7 +437,7 @@ local runningAutoBuyVending = true -- Variable to control the loop state
 local function startAutoBuyVending()
 	coroutine.wrap(function()
 		while runningAutoBuyVending do
-			task.wait(1) -- Delay to prevent spamming the server
+			task.wait(3) -- Delay to prevent spamming the server
 			local direction = game.ReplicatedStorage.Network.VendingMachines_Purchase
 			direction:InvokeServer("PotionVendingMachine", true)
 			task.wait(0.1)
@@ -462,6 +462,8 @@ local AutoBuyVending = AutoMerchant:CreateToggle({
 if runningAutoBuyVending then
 	startAutoBuyVending()
 end
+
+
 
 --Auto Use
 
@@ -1059,3 +1061,360 @@ local AntiAFK = MiscTab:CreateToggle({
 		end
 	end
 })
+
+--Auto Upgrade
+
+local runningAutoUpgrade = false -- Variable to control the loop state
+
+-- List of upgrade names from the provided data
+local upgradeList = {
+	"Inferno Blazing Dice",
+	"Tier 4 Instant Luck Potion",
+	"Luck Unleashed",
+	"Faster Jelly Restock",
+	"Lightspeed Cooldown",
+	"Booth Skin - Safety",
+	"Potion Vending Flash Sales",
+	"More Treasure Chests I",
+	"Better Treasure Chests III",
+	"Cheaper Mailbox",
+	"Chest Wizard",
+	"Rainbow Dice",
+	"Booth Skin - Jelly",
+	"Max Jelly Merchant Slots",
+	"Chest Sorcerer",
+	"Second Bounty",
+	"More Bonuses",
+	"More Chests",
+	"More Often Golden Dice",
+	"Hoverboard Skin - Safety",
+	"Jelly Coins Tier II",
+	"Breaking Bonus",
+	"Digging for Keys",
+	"Potion Vending First Discount",
+	"Merchant 2 for 1",
+	"Instant Potion Second Chance",
+	"More Super Chests",
+	"Better Potion Vending Prices",
+	"Egg 3",
+	"Break Even Faster",
+	"More Fishing Tokens IV",
+	"Super Chest",
+	"Pet Equip 2",
+	"Better Treasure Chests I",
+	"Large XP Jars",
+	"Insane Cooldown",
+	"Break Faster",
+	"Jelly Multiplier VIII",
+	"Lucky Treasure Chests I",
+	"Pet Dig Coins",
+	"Booth Skin - Panda",
+	"Better Potion Vending 5",
+	"Duped Keys",
+	"Booth Skin - Fishing",
+	"Loot Chest XP",
+	"Hoverboard Skin - Watermelon",
+	"Booth Skin - Dragon",
+	"Hoverboard Skin - Flame",
+	"Even Better Breakable Potions",
+	"Faster Cooldown",
+	"Super Sized Mailbox",
+	"Super Breaking Bonus",
+	"Longer Potions",
+	"Batch Potion Craft",
+	"Lucky Treasure Chests III",
+	"Better Jelly Discounts",
+	"Loot Chest Coins",
+	"Better Bounties",
+	"Rarer Breakables",
+	"Bulk Loot",
+	"More Fishing Tokens III",
+	"More Duped Keys",
+	"Coin Presents",
+	"Merchant Higher Quality",
+	"Hoverboard Skin - Skateboard",
+	"Hoverboard Skin - Jelly",
+	"Treasure Haul",
+	"Coins Potion Tier 5",
+	"More Coins From Breakables",
+	"Flying Gifts",
+	"Double Rainbow Dice",
+	"Faster Potion Vending Restocks",
+	"Power Saver",
+	"Booth Skin - Giraffe",
+	"Delicious Fruit",
+	"Valuable Pets",
+	"Luck Crafting II",
+	"Increased Second Chance",
+	"Jelly Dog",
+	"More Friends 3",
+	"Pet Radar",
+	"Trading",
+	"XP Farmer",
+	"Double Rainbow",
+	"Seeking Shots",
+	"Even More Jelly Merchant Slots",
+	"Faster Casting III",
+	"Dice Items From Rolling",
+	"Better Fusion",
+	"More Breakable Keys",
+	"Mega Vault",
+	"Over the Rainbow",
+	"Treasure Keys",
+	"Booth Skin - Parrot",
+	"Coins Potion Tier 4",
+	"Better Potion Vending 6",
+	"Fishing",
+	"Even Bigger Mailbox",
+	"Pet Dig Items",
+	"Egg 9",
+	"Aimbot Slingshot",
+	"Rare Treasure Chest",
+	"Lucky Loot II",
+	"Collections Master",
+	"Even More Coins From Breakables",
+	"Better Potion Vending 2",
+	"Full Spectrum",
+	"Better Cocktail",
+	"More Lightning",
+	"More Jelly Coins",
+	"Rainbow Fruit",
+	"Hoverboard Skin - Bee",
+	"Jelly Shark",
+	"Jelly Elephant",
+	"Fishing XP I",
+	"Luckier",
+	"Jelly Chests II",
+	"Basic Treasure Chest",
+	"More Friends",
+	"Afterburn Blazing Dice",
+	"Quick Charge",
+	"Jelly Multiplier V",
+	"Buckets of XP",
+	"Faster Rolls Event",
+	"Luckier Dupe Pets",
+	"Jelly Shiba",
+	"Coins Crafting III",
+	"Turbo Cooldown",
+	"Faster Egg Open",
+	"Jelly Potion Crafting",
+	"Jelly Multiplier IX",
+	"Bioengineered Fruit",
+	"Breakable Crafting III",
+	"Hoverboard Skin - Ducky",
+	"Even More XP",
+	"Very Valuable Pets",
+	"Double Duped Pets",
+	"Even Faster Jelly Restock",
+	"More Fishing Slots",
+	"More Treasure Chests II",
+	"Lucky Loot I",
+	"Pets Luck",
+	"Hoverboard Skin - Axolotl",
+	"Jelly Dragon",
+	"TNT",
+	"Better Potion Vending 4",
+	"Even Faster Potion Crafting",
+	"Even Longer Potions",
+	"Pet Index",
+	"24karat Golden Dice",
+	"Merchant Better Selection",
+	"Double Juice",
+	"Armor Piercing",
+	"Booth Skin - Pixel",
+	"Faster Auto Roll",
+	"TNT Supercharged",
+	"Dynamite",
+	"Hoverboard Skin - Strawberry",
+	"Jelly Multiplier I",
+	"Merchant Faster Shopping",
+	"Fishing Merchant",
+	"More Chest XP",
+	"Easier Catch",
+	"Walkspeed Potion",
+	"Fortune Favor",
+	"Lucky Potion Tier 5",
+	"Events More Often",
+	"Coins Potion",
+	"Fruit Magnet",
+	"Quest Turbo",
+	"Present Surge",
+	"Amazing Fruit",
+	"Ultimate Vault",
+	"Billionaire Vault",
+	"Lucky Potion Tier 3",
+	"More Chest Coins",
+	"More Items From Rolling 2",
+	"More Jelly Coins II",
+	"Juicer",
+	"Ultra Pets",
+	"Random Discounts",
+	"Luckier Crafting Double",
+	"More Treasure Keys",
+	"Booth Skin - Strawberry",
+	"Iron Fishing Rod",
+	"Merchant Extreme Shopping",
+	"Coin Chests",
+	"Egg 6",
+	"Loaded Gifts",
+	"Jelly Chests",
+	"Jelly Breakable Quests",
+	"Fishing Jelly Coins II",
+	"Jelly Coin Piles",
+	"Faster Pets",
+	"Merchant Top Shelf",
+	"Bigger Blast",
+	"Triple Shot Slingshot",
+	"Double Treasure Chests I",
+	"Hoverboard Skin - Doodle",
+	"Blazing Dice Potion",
+	"Quest Lite",
+	"Shiny Pets",
+	"Hoverboard Skin - Tiger",
+	"Exclusive Treasure Chest",
+	"Bigger Booth",
+	"Inventory",
+	"Hoverboard Skin - Cat",
+	"Magnet",
+	"Egg 8",
+	"More Relics",
+	"Big Flying Gifts",
+	"XP Sensei",
+	"Index Shop",
+	"Tier 4 Items Drop Potion",
+	"Hide Rolls",
+	"Double Treasure Chests II",
+	"More Coins Event",
+	"Potion Crafting Double",
+	"Jelly Multiplier VII",
+	"Pet Bounty",
+	"Even More Chest Coins",
+	"Egg 7",
+	"Efficient Fusion",
+	"More Breakable Item Drops",
+	"Glimmering Fruit",
+	"More Rare Fruit",
+	"Coin Crates",
+	"Booth Skin - Unicorn",
+	"Balloon Apocalypse",
+	"Hoverboard Skin - Unicorn",
+	"Jelly Loot Chest",
+	"Collections Expert",
+	"Hoverboard Skin - Surfboard",
+	"Items From Rolling",
+	"Root",
+	"Merchant Super Stocked",
+	"Breakable Item Drops",
+	"Auto Fire Slingshot",
+	"Merchant Stocked",
+	"Coin Safes",
+	"Ultimate Fusion",
+	"Rainbow Dice Potion",
+	"Better Friends Boost",
+	"Items Drop Potion",
+	"Fishing Merchant Slot",
+	"Fishing Coins I",
+	"Jelly Monkey",
+	"Loot Bags",
+	"Jelly Flash Sale I",
+	"Chest Crusher",
+	"Instant Egg Open",
+	"More Jelly Drops",
+	"Lucky Potion Tier 4",
+	"Golden Dice Potion",
+	"Lucky Potion Tier 7",
+	"Golden Skies",
+	"More Jelly Merchant Slots",
+	"More Treasure Chests III",
+	"Trading Plaza",
+	"XP Rebirth",
+	"Loot Big Presents",
+	"Cheaper Shiny Fruit",
+	"Even More Breakables",
+	"Faster Catching II",
+	"Hoverboard Skin - Bleebo The Alien",
+	"Slingshot Skills",
+	"Lucky Treasure Chests II",
+	"Stronger Magnet",
+	"Egg 5",
+	"Full Rainbow Dice",
+	"Better Potion Vending 3",
+	"More XP Jars",
+	"Luckier XP Jars",
+	"Epic Treasure Chest",
+	"Leveling Items",
+	"Rainbow Rush",
+	"Booth Skin - Summer",
+	"More Friends 2",
+	"Instant Luck Potion",
+	"Even Better Jelly Merchant",
+	"Jelly Multiplier VI",
+	"Jelly Corgi",
+	"Jelly Axolotl",
+	"Tier 2 Breakables Potion",
+	"TradingTerminal",
+	"Fortunate Son",
+	"Merchant Private Deals",
+	"Fishing Coins III",
+	"Tier 3 Items Drop Potion",
+	"Jelly Chicken",
+	"Small Coin Piles",
+	"Coins Potion Tier 2",
+	"Golden Dice Coin Bonus",
+	"Relics",
+	"Bigger Mailbox",
+	"Premium",
+	"Large Coin Piles",
+	"More Treasure Coins",
+	"More Friends III",
+	"Loot Chests",
+	"Loot Mystery Box",
+	"Coins Potion Tier 3",
+	"Fishing Coins II",
+	"Even More Treasure Chest Coins",
+	"Pet Luck",
+	"Jelly Booster",
+	"Better Chance Items"
+}
+
+-- Function to start auto-upgrading
+local function startAutoUpgrade()
+	coroutine.wrap(function()
+		while runningAutoUpgrade do
+			task.wait(0.1) -- Delay to prevent spamming the server
+
+			-- Iterate over the upgrade list and try purchasing each upgrade
+			for _, upgrade in ipairs(upgradeList) do
+				local success, response = pcall(function()
+					-- Here, I assume that `Upgrades_Purchase` accepts the upgrade name as a parameter
+					return game.ReplicatedStorage.Network.Upgrades_Purchase:InvokeServer(upgrade)
+				end)
+
+				if success then
+					print("Upgrade purchased:", upgrade)
+				else
+					print("Error purchasing upgrade:", upgrade)
+				end
+			end
+		end
+	end)()
+end
+
+-- Toggle setup for auto upgrade
+local Toggle = MiscTab:CreateToggle({
+	Name = "Auto Buy Upgrades",
+	CurrentValue = false, -- Default to off
+	Flag = "ToggleAutoUpgrade",
+	Callback = function(Value)
+		runningAutoUpgrade = Value -- Update the running state based on the toggle value
+
+		if runningAutoUpgrade then
+			startAutoUpgrade() -- Start auto-upgrading when enabled
+		end
+	end,
+})
+
+-- Start auto-upgrading on script initialization if enabled
+if runningAutoUpgrade then
+	startAutoUpgrade()
+end
