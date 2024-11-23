@@ -845,7 +845,7 @@ local Items = {
 	LegendaryBait = {ID = "Fishing Bait", Type = "Consumable", tn = 4},
 	InstantLuckPotionIV = {ID = "Instant Luck Potion", Type = "Consumable", tn = 4},
 	LegendaryTreasureChest = {ID = "Legendary Treasure Chest", Type = "Lootbox"},
-	ExclusiveChest = {ID = "Exclusive Chest", Type = "Lootbox"},
+	ExclusiveChest = {ID = "Exclusive Treasure Chest", Type = "Lootbox"},
 	CrystalKey = {ID = "Crystal Key", Type = "Misc"},
 	LowerCrystalKey = {ID = "Crystal Key Lower Half", Type = "Misc"},
 	UpperCrystalKey = {ID = "Crystal Key Upper Half", Type = "Misc"},
