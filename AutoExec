@@ -547,12 +547,13 @@ local Toggle = AutoUseTab:CreateToggle({
 	end,
 })
 
--- Manually start the loop if the toggle's default state is `true`
-if Toggle.CurrentValue == true then
-	runningAutoEatFruits = true
-	startAutoEatFruits()
-end
-
+-- Defer starting the loop until the toggle is fully initialized
+task.defer(function()
+	if Toggle.CurrentValue == true then
+		runningAutoEatFruits = true
+		startAutoEatFruits()
+	end
+end)
 
 -- Space Section for Inputs
 local InputSection = AutoUseTab:CreateSection("Inputs")
@@ -694,14 +695,13 @@ local BaitToggle = AutoUseTab:CreateToggle({
 	end,
 })
 
--- Manually initialize the toggle's behavior
-if BaitToggle.Flag == "ToggleAutoUseSelectedBaits" and BaitToggle.CurrentValue == true then
-	runningAutoBait = true
-	startAutoBait() -- Start the loop manually
-end
-
-
-
+-- Defer manual initialization to ensure the toggle is fully set up
+task.defer(function()
+	if BaitToggle.Flag == "ToggleAutoUseSelectedBaits" and BaitToggle.CurrentValue == true then
+		runningAutoBait = true
+		startAutoBait() -- Start the loop manually
+	end
+end)
 
 
 --Space
@@ -822,11 +822,14 @@ local LootboxToggle = AutoUseTab:CreateToggle({
 	end,
 })
 
--- Manually start the auto-lootbox loop if the toggle's default state is `true`
-if LootboxToggle.CurrentValue == true then
-	runningAutoLootbox = true
-	startAutoLootbox()
-end
+-- Safely start the auto-lootbox loop after the toggle is fully initialized
+task.defer(function()
+	if LootboxToggle.CurrentValue == true then
+		runningAutoLootbox = true
+		startAutoLootbox()
+	end
+end)
+
 
 
 
