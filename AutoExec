@@ -829,6 +829,44 @@ local MailboxTab = Window:CreateTab("MailBox", nil) -- Title, Image
 -- Auto Mailbox Item Sending Script
 -- Organized Items Table
 -- Helper function to extract the keys from a table
+local function getKeys(tbl)
+	local keys = {}
+	for key, _ in pairs(tbl) do
+		table.insert(keys, key)
+	end
+	return keys
+end
+
+local recipient = "davidjenej"
+-- Define items with their IDs, categories, and optional `tn` values
+local Items = {
+	LegendaryBait = {ID = "Fishing Bait", Type = "Consumable", tn = 4},
+	InstantLuckPotionIV = {ID = "Instant Luck Potion", Type = "Consumable", tn = 4},
+	LegendaryTreasureChest = {ID = "Legendary Treasure Chest", Type = "Lootbox"},
+	ExclusiveChest = {ID = "Exclusive Chest", Type = "Lootbox"},
+	CrystalKey = {ID = "Crystal Key", Type = "Misc"},
+	LowerCrystalKey = {ID = "Crystal Key Lower Half", Type = "Misc"},
+	UpperCrystalKey = {ID = "Crystal Key Upper Half", Type = "Misc"},
+	BananaPet = {ID = "Banana", Type = "Pet"}
+}
+
+local SelectedItems = {} -- Table to store currently selected items
+local runningMailboxSend = false -- Toggle for mailbox sending
+
+-- Dropdown for selecting multiple items
+local ItemDropdown = MailboxTab:CreateDropdown({
+	Name = "Select Items to Send",
+	Options = getKeys(Items),   -- Extract item names as dropdown options using the helper function
+	CurrentOption = {},         -- Default empty selection
+	MultipleOptions = true,     -- Allow multiple selections
+	Flag = "MultiItemDropdown", -- Unique identifier
+	Callback = function(Options)
+		SelectedItems = Options -- Update the selected items
+		print("Selected items:", table.concat(Options, ", "))
+	end
+})
+
+-- Function to find and send selected items
 -- Function to find and send selected items
 local function findAndSendItems(recipient)
 	-- Validate recipient
