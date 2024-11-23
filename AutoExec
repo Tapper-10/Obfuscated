@@ -600,7 +600,7 @@ local Baits = {
 local BaitDropdown = AutoUseTab:CreateDropdown({
 	Name = "Select Bait Types",
 	Options = { "BasicBait", "RareBait", "EpicBait", "LegendaryBait", "ExclusiveBait" },
-	CurrentOption = {"BasicBait", "RareBait", "EpicBait"}, -- Default empty selection
+	CurrentOption = SelectedBaits, -- Set default selected options
 	MultipleOptions = true, -- Allow multiple selections
 	Flag = "dropdownbaits", -- Unique identifier
 	Callback = function(Options)
@@ -609,6 +609,7 @@ local BaitDropdown = AutoUseTab:CreateDropdown({
 		-- print("Selected bait types: " .. table.concat(Options, ", "))
 	end,
 })
+
 
 -- Function to consume the selected bait types
 local function consumeSelectedBaits(consumableTable)
