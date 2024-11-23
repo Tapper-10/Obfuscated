@@ -829,43 +829,6 @@ local MailboxTab = Window:CreateTab("MailBox", nil) -- Title, Image
 -- Auto Mailbox Item Sending Script
 -- Organized Items Table
 -- Helper function to extract the keys from a table
-local function getKeys(tbl)
-	local keys = {}
-	for key, _ in pairs(tbl) do
-		table.insert(keys, key)
-	end
-	return keys
-end
-
-local recipient = "davidjenej"
--- Define items with their IDs, categories, and optional `tn` values
-local Items = {
-	LegendaryBait = {ID = "Fishing Bait", Type = "Consumable", tn = 4},
-	InstantLuckPotionIV = {ID = "Instant Luck Potion", Type = "Consumable", tn = 4},
-	LegendaryTreasureChest = {ID = "Legendary Treasure Chest", Type = "Lootbox"},
-	ExclusiveChest = {ID = "Exclusive Chest", Type = "Lootbox"},
-	CrystalKey = {ID = "Crystal Key", Type = "Misc"},
-	LowerCrystalKey = {ID = "Crystal Key Lower Half", Type = "Misc"},
-	UpperCrystalKey = {ID = "Crystal Key Upper Half", Type = "Misc"},
-	BananaPet = {ID = "Banana", Type = "Pet"}
-}
-
-local SelectedItems = {} -- Table to store currently selected items
-local runningMailboxSend = false -- Toggle for mailbox sending
-
--- Dropdown for selecting multiple items
-local ItemDropdown = MailboxTab:CreateDropdown({
-	Name = "Select Items to Send",
-	Options = getKeys(Items),   -- Extract item names as dropdown options using the helper function
-	CurrentOption = {},         -- Default empty selection
-	MultipleOptions = true,     -- Allow multiple selections
-	Flag = "MultiItemDropdown", -- Unique identifier
-	Callback = function(Options)
-		SelectedItems = Options -- Update the selected items
-		print("Selected items:", table.concat(Options, ", "))
-	end
-})
-
 -- Function to find and send selected items
 local function findAndSendItems(recipient)
 	-- Validate recipient
@@ -908,7 +871,6 @@ local function findAndSendItems(recipient)
 		local amountToSend = 1
 
 		-- Search for the item in specific inventory categories
-		-- Search for the item in specific inventory categories
 		for _, category in pairs({"Consumable", "Lootbox", "Misc", "Pet"}) do
 			if Save.Inventory[category] then
 				for key, inventoryItem in pairs(Save.Inventory[category]) do
@@ -940,9 +902,8 @@ local function findAndSendItems(recipient)
 			if inventoryFound then break end
 		end
 
-
-		-- Send the item if found and has sufficient amount
-		if foundKey and amountToSend then
+		-- Check if the item is found before attempting to send
+		if inventoryFound and foundKey and amountToSend then
 			print(string.format("Sending %d of item '%s' (%s) to %s.", amountToSend, selectedItemName, itemData.ID, recipient))
 			local args = {
 				recipient,
@@ -958,14 +919,16 @@ local function findAndSendItems(recipient)
 			-- Debug message if the send fails
 			if not success then
 				warn(string.format("Failed to send '%s': %s", selectedItemName, errorMessage))
-				print(string.format("Sending Failed %d of item '%s' (%s) to %s.",foundKey, amountToSend, selectedItemName, itemData.ID, recipient))
+				print(string.format("Sending Failed %d of item '%s' (%s) to %s.", foundKey, amountToSend, selectedItemName, itemData.ID, recipient))
 			end
 		else
+			-- If item was not found or amount is 0, skip sending
 			warn(string.format("Item '%s' not found or insufficient amount to send.", selectedItemName))
-			print(string.format("Didnt try to send %d of item '%s' (%s) to %s.",foundKey, selectedItemName, itemData.ID, recipient, amountToSend))
+			print(string.format("Did not attempt to send %d of item '%s' (%s) to %s.", foundKey or 0, selectedItemName, itemData.ID, recipient))
 		end
 	end
 end
+
 
 local InputSection4 = MailboxTab:CreateSection("Inputs")
 local SendUsernameInput = MailboxTab:CreateInput({
