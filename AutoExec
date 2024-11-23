@@ -587,6 +587,7 @@ local AutoBaitSection = AutoUseTab:CreateSection("Auto Use Baits")
 
 -- Configuration for bait types
 -- Configuration for bait types
+-- Configuration for bait types
 local BaitAmount = 1 -- Amount of bait to consume per use
 local SelectedBaits = {"BasicBait", "RareBait", "EpicBait"} -- Table to store selected bait types
 local Baits = {
@@ -674,10 +675,12 @@ local BaitToggle = AutoUseTab:CreateToggle({
 	end,
 })
 
--- Start auto-bait loop if the toggle's default state is `true`
-if BaitToggle.CurrentValue then
-	startAutoBait()
+-- Manually initialize the toggle's behavior
+if BaitToggle.Flag == "ToggleAutoUseSelectedBaits" and BaitToggle.CurrentValue == true then
+	runningAutoBait = true
+	startAutoBait() -- Start the loop manually
 end
+
 
 
 
