@@ -610,6 +610,8 @@ local BaitDropdown = AutoUseTab:CreateDropdown({
 	end,
 })
 
+-- Ensure the dropdown callback is executed to initialize `SelectedBaits`
+BaitDropdown.Callback(SelectedBaits) -- Simulate callback to set default values
 
 -- Function to consume the selected bait types
 local function consumeSelectedBaits(consumableTable)
