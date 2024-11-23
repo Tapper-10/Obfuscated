@@ -199,7 +199,7 @@ local function startAutoBreak()
 
 							-- Fire server event to join pet with breakable
 							game:GetService("ReplicatedStorage").Network.Breakables_JoinPetBulk:FireServer(unpack(args))
-							print("Processed breakable object with pet ID:", petID, "and model:", modelName)
+							
 							task.wait(0.05) -- Small delay
 						end
 					end
