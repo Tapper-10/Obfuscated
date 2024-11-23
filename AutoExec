@@ -468,9 +468,9 @@ end
 local AutoUseTab = Window:CreateTab("Auto Use", nil)
 local AutoUseFruitSection = AutoUseTab:CreateSection("Auto Use Fruit")
 
-local FruitAmount = 1
-local KeepFruit = 0
-local SelectedFruits = {"Apple", "Shiny Apple", "Orange", "Shiny Orange", "Pineapple", "Shiny Pineapple", "Rainbow", "Watermelon", "Shiny Watermelon"} -- Table to store selected fruits (normal and shiny)
+local FruitAmount = 5
+local KeepFruit = 50
+local SelectedFruits = { "Apple", "Shiny Apple", "Orange", "Shiny Orange", "Pineapple", "Shiny Pineapple", "Rainbow", "Watermelon", "Shiny Watermelon" }
 
 -- Multi-select Dropdown for selecting which fruits to consume
 local Dropdown = AutoUseTab:CreateDropdown({
@@ -482,16 +482,19 @@ local Dropdown = AutoUseTab:CreateDropdown({
 		"Pineapple", "Shiny Pineapple",
 		"Rainbow", "Shiny Rainbow",
 		"Watermelon", "Shiny Watermelon"
-	}, -- Include shiny variants
-	CurrentOption = {}, -- Default empty selection
-	MultipleOptions = true, -- Allow selecting multiple fruits
-	Flag = "dropdownfruits", -- Unique identifier
+	},
+	CurrentOption = SelectedFruits, -- Default selected fruits
+	MultipleOptions = true,
+	Flag = "dropdownfruits",
 	Callback = function(Options)
 		SelectedFruits = Options -- Update the selected fruits
 	end,
 })
 
--- Function to consume the selected fruits (normal and shiny)
+-- Ensure the dropdown's default values are applied
+Dropdown.Callback(SelectedFruits) -- Trigger the dropdown callback manually
+
+-- Function to consume the selected fruits
 local function consumeSelectedFruits(fruitTable)
 	for key, fruit in pairs(fruitTable) do
 		if fruit and type(fruit) == "table" and fruit.id and fruit._am then
@@ -509,31 +512,47 @@ end
 
 -- Toggle for Auto Eating the Selected Fruits
 local runningAutoEatFruits = true
+
+-- Function to start the auto-eat loop
+local function startAutoEatFruits()
+	coroutine.wrap(function()
+		while runningAutoEatFruits do
+			local Library = game.ReplicatedStorage:WaitForChild("Library")
+			local Client = Library:FindFirstChild("Client")
+			local Network = require(Client:WaitForChild("Network"))
+			local Save = require(Client:FindFirstChild("Save")).Get()
+
+			-- Ensure only the Inventory table inside Save is used
+			if Save.Inventory and Save.Inventory.Fruit then
+				consumeSelectedFruits(Save.Inventory.Fruit)
+			else
+				print("No fruits found in inventory.")
+			end
+
+			wait(math.random(5, 15)) -- Prevent infinite loop from freezing the game
+		end
+	end)()
+end
+
+-- Toggle to enable/disable Auto Eating
 local Toggle = AutoUseTab:CreateToggle({
 	Name = "Auto Eat Selected Fruits",
 	CurrentValue = true,
-	Flag = "ToggleAutoEatSelectedFruits", -- Unique identifier
+	Flag = "ToggleAutoEatSelectedFruits",
 	Callback = function(Value)
 		runningAutoEatFruits = Value -- Update the loop state
-
 		if runningAutoEatFruits then
-			while runningAutoEatFruits do
-				local Library = game.ReplicatedStorage:WaitForChild("Library")
-				local Client = Library:FindFirstChild("Client")
-				local Network = require(Client:WaitForChild("Network"))
-				local Save = require(Client:FindFirstChild("Save")).Get()
-
-				-- Ensure only the Inventory table inside Save is used
-				if Save.Inventory and Save.Inventory.Fruit then
-					consumeSelectedFruits(Save.Inventory.Fruit)
-				else
-					print("No fruits found in inventory.")
-				end
-				wait(math.random(5,15)) -- Prevent infinite loop from freezing the game
-			end
+			startAutoEatFruits()
 		end
 	end,
 })
+
+-- Manually start the loop if the toggle's default state is `true`
+if Toggle.CurrentValue == true then
+	runningAutoEatFruits = true
+	startAutoEatFruits()
+end
+
 
 -- Space Section for Inputs
 local InputSection = AutoUseTab:CreateSection("Inputs")
@@ -710,7 +729,7 @@ local LootboxSection = AutoUseTab:CreateSection("Auto Use Lootbox")
 
 -- Configuration for lootbox types
 local LootboxAmount = 1 -- Amount of lootboxes to consume per use
-local SelectedLootboxes = {} -- Table to store selected lootbox types
+local SelectedLootboxes = { "Basic Treasure Chest", "Rare Treasure Chest", "Epic Treasure Chest" } -- Default selected lootboxes
 local Lootboxes = {
 	"Basic Treasure Chest",
 	"Rare Treasure Chest",
@@ -723,7 +742,7 @@ local Lootboxes = {
 local LootboxDropdown = AutoUseTab:CreateDropdown({
 	Name = "Select Lootbox Types",
 	Options = Lootboxes, -- Provide lootbox options
-	CurrentOption = {	"Basic Treasure Chest","Rare Treasure Chest","Epic Treasure Chest",}, -- Default empty selection
+	CurrentOption = SelectedLootboxes, -- Set default selected options
 	MultipleOptions = true, -- Allow multiple selections
 	Flag = "dropdownlootboxes", -- Unique identifier
 	Callback = function(Options)
@@ -732,6 +751,9 @@ local LootboxDropdown = AutoUseTab:CreateDropdown({
 		-- print("Selected lootbox types: " .. table.concat(Options, ", "))
 	end,
 })
+
+-- Ensure the dropdown callback is executed to initialize `SelectedLootboxes`
+LootboxDropdown.Callback(SelectedLootboxes) -- Simulate the callback to apply default values
 
 -- Function to consume the selected lootboxes
 local function consumeSelectedLootboxes(consumableTable)
@@ -799,6 +821,13 @@ local LootboxToggle = AutoUseTab:CreateToggle({
 		end
 	end,
 })
+
+-- Manually start the auto-lootbox loop if the toggle's default state is `true`
+if LootboxToggle.CurrentValue == true then
+	runningAutoLootbox = true
+	startAutoLootbox()
+end
+
 
 
 local InputSection3 = AutoUseTab:CreateSection("Inputs")
