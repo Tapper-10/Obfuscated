@@ -394,39 +394,39 @@ end
 
 
 
--- Auto Buy Jelly Toggle
-local runningAutoBuyJelly = true -- Variable to control the loop state
+-- Auto Buy AutumnMerchant Toggle
+local runningAutoBuyAutumn = true -- Variable to control the loop state
 
--- Function to start the Auto Buy Jelly process
-local function startAutoBuyJelly()
+-- Function to start the Auto Buy Autumn process
+local function startAutoBuyAutumn()
 	coroutine.wrap(function()
-		while runningAutoBuyJelly do
+		while runningAutoBuyAutumn do
 			task.wait(3) -- Delay to prevent spamming the server
 			local direction = game.ReplicatedStorage.Network.CustomMerchants_Purchase
 			for i = 1, 6 do
-				direction:InvokeServer("JellyMerchant", i, true)
+				direction:InvokeServer("AutumnMerchant", i, true)
 				task.wait(0.1)
 			end
 		end
 	end)()
 end
 
--- Toggle for Auto Buy Jelly
-local AutoBuyJelly = AutoMerchant:CreateToggle({
-	Name = "Auto Buy Jelly",
+-- Toggle for Auto Buy Autumn
+local AutoBuyAutumn = AutoMerchant:CreateToggle({
+	Name = "Auto Buy Autumn",
 	CurrentValue = true,
-	Flag = "ToggleAutoJellyBuy",
+	Flag = "ToggleAutoAutumnBuy",
 	Callback = function(Value)
-		runningAutoBuyJelly = Value -- Update the running state
-		if runningAutoBuyJelly then
-			startAutoBuyJelly()
+		runningAutoBuyAutumn = Value -- Update the running state
+		if runningAutoBuyAutumn then
+			startAutoBuyAutumn()
 		end
 	end,
 })
 
--- Start Auto Buy Jelly on script initialization if enabled
-if runningAutoBuyJelly then
-	startAutoBuyJelly()
+-- Start Auto Buy Autumn on script initialization if enabled
+if runningAutoBuyAutumn then
+	startAutoBuyAutumn()
 end
 
 --Auto Buy vending
