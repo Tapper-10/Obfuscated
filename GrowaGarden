@@ -277,7 +277,7 @@ local function AutoBuyGearShop()
 	end)()
 end
 
-local AutoBuyGearShop = SeedBuy:CreateToggle({
+local AutoBuyGear = SeedBuy:CreateToggle({
 	Name = "Auto Buy Gear shop",
 	CurrentValue = false,
 	Flag = "ToggleFind",
