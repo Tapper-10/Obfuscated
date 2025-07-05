@@ -1307,59 +1307,6 @@ function TapperLibrary:CreateWindow(Settings)
 		end
 	end
 
-	if Settings.Discord and not useStudio then
-		if not isfolder(TapperFolder.."/Discord Invites") then
-			makefolder(TapperFolder.."/Discord Invites")
-		end
-
-		if not isfile(TapperFolder.."/Discord Invites".."/"..Settings.Discord.Invite..ConfigurationExtension) then
-			if request then
-				request({
-					Url = 'http://127.0.0.1:6463/rpc?v=1',
-					Method = 'POST',
-					Headers = {
-						['Content-Type'] = 'application/json',
-						Origin = 'https://discord.com'
-					},
-					Body = HttpService:JSONEncode({
-						cmd = 'INVITE_BROWSER',
-						nonce = HttpService:GenerateGUID(false),
-						args = {code = Settings.Discord.Invite}
-					})
-				})
-			end
-
-			if Settings.Discord.RememberJoins then -- We do logic this way so if the developer changes this setting, the user still won't be prompted, only new users
-				writefile(TapperFolder.."/Discord Invites".."/"..Settings.Discord.Invite..ConfigurationExtension,"Tapper RememberJoins is true for this invite, this invite will not ask you to join again")
-			end
-		end
-	end
-
-	if (Settings.KeySystem) then
-		if not Settings.KeySettings then
-			Passthrough = true
-			return
-		end
-
-		if isfolder and not isfolder(TapperFolder.."/Key System") then
-			makefolder(TapperFolder.."/Key System")
-		end
-
-		if typeof(Settings.KeySettings.Key) == "string" then Settings.KeySettings.Key = {Settings.KeySettings.Key} end
-
-		if Settings.KeySettings.GrabKeyFromSite then
-			for i, Key in ipairs(Settings.KeySettings.Key) do
-				local Success, Response = pcall(function()
-					Settings.KeySettings.Key[i] = tostring(game:HttpGet(Key):gsub("[\n\r]", " "))
-					Settings.KeySettings.Key[i] = string.gsub(Settings.KeySettings.Key[i], " ", "")
-				end)
-				if not Success then
-					print("Tapper | "..Key.." Error " ..tostring(Response))
-					warn('Check docs.sirius.menu for help with Tapper specific development.')
-				end
-			end
-		end
-
 		if not Settings.KeySettings.FileName then
 			Settings.KeySettings.FileName = "No file name specified"
 		end
