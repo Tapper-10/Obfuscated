@@ -1,0 +1,66 @@
+while true do 
+	wait(1)
+	
+	local args = {
+		[1] = 1
+	}
+
+	game:GetService("ReplicatedStorage").GameEvents.BuyPetEgg:FireServer(unpack(args))
+	local args = {
+		[1] = 2
+	}
+
+	game:GetService("ReplicatedStorage").GameEvents.BuyPetEgg:FireServer(unpack(args))
+	local args = {
+		[1] = 3
+	}
+
+	game:GetService("ReplicatedStorage").GameEvents.BuyPetEgg:FireServer(unpack(args))
+	
+	
+	
+
+	local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+	local seedItems = {
+		"Carrot", "Strawberry", "Blueberry", "Orange Tulip", "Tomato", "Daffodil",
+		"Watermelon", "Pumpkin", "Apple", "Bamboo", "Coconut", "Cactus",
+		"Dragon Fruit", "Mango", "Grape", "Mushroom", "Pepper", "Cacao",
+		"Beanstalk", "Ember Lily", "Sugar Apple", "Burning Bud"
+	}
+
+	for _, seed in ipairs(seedItems) do
+		ReplicatedStorage.GameEvents.BuySeedStock:FireServer(seed)
+	end
+	
+	
+	
+	local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+	local gearItems = {
+		"Watering Can",
+		"Trowel",
+		"Recall Wrench",
+		"Basic Sprinkler",
+		"Advanced Sprinkler",
+		"Godly Sprinkler",
+		"Master Sprinkler",
+		"Magnifying Glass",
+		"Tanning Mirror"
+	}
+
+	for _, item in ipairs(gearItems) do
+		ReplicatedStorage.GameEvents.BuyGearStock:FireServer(item)
+	end
+
+	local merchantItems = {
+		"Night Staff",
+		"Star Cellar",
+		"Mutation Spray Cloudtouched"
+	}
+
+	for _, item in ipairs(merchantItems) do
+		ReplicatedStorage.GameEvents.BuyTravelingMerchantShopStock:FireServer(item)
+	end
+	
+end
