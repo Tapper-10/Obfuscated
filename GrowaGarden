@@ -122,94 +122,18 @@ local function startAutoBuy()
 	coroutine.wrap(function()
 		while AutoBuy do
 			task.wait(1)
-			local args = {
-				[1] = "Carrot"
+			local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+			local seedItems = {
+				"Carrot", "Strawberry", "Blueberry", "Orange Tulip", "Tomato", "Daffodil",
+				"Watermelon", "Pumpkin", "Apple", "Bamboo", "Coconut", "Cactus",
+				"Dragon Fruit", "Mango", "Grape", "Mushroom", "Pepper", "Cacao",
+				"Beanstalk", "Ember Lily", "Sugar Apple", "Burning Bud"
 			}
-			game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Strawberry"
-			}
-			game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Blueberry"
-			}
-			game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Orange Tulip"
-			}
-			game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Tomato"
-			}
-			game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Daffodil"
-			}
-			game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Watermelon"
-			}
-			game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Pumpkin"
-			}
-			game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Apple"
-			}
-			game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Bamboo"
-			}
-			game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Coconut"
-			}
-			game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Cactus"
-			}
-			game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Dragon Fruit"
-			}
-			game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Mango"
-			}
-			game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Grape"
-			}
-			game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Mushroom"
-			}
-			game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Pepper"
-			}
-			game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Cacao"
-			}
-			game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Beanstalk"
-			}
-			game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Ember Lily"
-			}
-			game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Sugar Apple"
-			}
-			game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Burning Bud"
-			}
-			game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(unpack(args))
+
+			for _, seed in ipairs(seedItems) do
+				ReplicatedStorage.GameEvents.BuySeedStock:FireServer(seed)
+			end
 		end
 	end)()
 end
@@ -229,50 +153,37 @@ local AutoSeedBuy = SeedBuy:CreateToggle({
 
 local AutoBuyGearShop = false -- Control flag for the coroutine
 
-local function AutoBuyGearShop()
+local function AutoBuyGearShop1()
 	coroutine.wrap(function()
-		while AutoBuy do
+		while AutoBuyGearShop do
 			task.wait(1)
-			local args = {
-				[1] = "Watering Can"
+			
+			local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+			local gearItems = {
+				"Watering Can",
+				"Trowel",
+				"Recall Wrench",
+				"Basic Sprinkler",
+				"Advanced Sprinkler",
+				"Godly Sprinkler",
+				"Master Sprinkler",
+				"Magnifying Glass"
 			}
 
-			game:GetService("ReplicatedStorage").GameEvents.BuyGearStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Trowel"
+			for _, item in ipairs(gearItems) do
+				ReplicatedStorage.GameEvents.BuyGearStock:FireServer(item)
+			end
+
+			local merchantItems = {
+				"Night Staff",
+				"Star Cellar",
+				"Mutation Spray Cloudtouched"
 			}
 
-			game:GetService("ReplicatedStorage").GameEvents.BuyGearStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Recall Wrench"
-			}
-
-			game:GetService("ReplicatedStorage").GameEvents.BuyGearStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Basic Sprinkler"
-			}
-
-			game:GetService("ReplicatedStorage").GameEvents.BuyGearStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Advanced Sprinkler"
-			}
-
-			game:GetService("ReplicatedStorage").GameEvents.BuyGearStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Godly Sprinkler"
-			}
-
-			game:GetService("ReplicatedStorage").GameEvents.BuyGearStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Master Sprinkler"
-			}
-
-			game:GetService("ReplicatedStorage").GameEvents.BuyGearStock:FireServer(unpack(args))
-			local args = {
-				[1] = "Magnifying Glass"
-			}
-
-			game:GetService("ReplicatedStorage").GameEvents.BuyGearStock:FireServer(unpack(args))
+			for _, item in ipairs(merchantItems) do
+				ReplicatedStorage.GameEvents.BuyTravelingMerchantShopStock:FireServer(item)
+			end
 		end
 	end)()
 end
@@ -284,7 +195,7 @@ local AutoBuyGear = SeedBuy:CreateToggle({
 	Callback = function(Value)
 		AutoBuyGearShop = Value -- Update the running state based on the toggle value
 		if AutoBuyGearShop then
-			AutoBuyGearShop() -- Start the teleport loop
+			AutoBuyGearShop1() -- Start the teleport loop
 		end
 	end,
 })
