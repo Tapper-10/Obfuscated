@@ -80,6 +80,17 @@ local function equipSeedTool()
 	warn("[AUTO] Could not find carrot seed tool.")
 end
 
+local function unequipTool()
+	if player.Character then
+		for _, item in ipairs(player.Character:GetChildren()) do
+			if item:IsA("Tool") then
+				item.Parent = backpack
+				print("[AUTO] Unequipped tool:", item.Name)
+			end
+		end
+	end
+end
+
 -- Equip any non-seed carrot tool for feeding
 local function equipFoodTool()
 	for _, tool in ipairs(backpack:GetChildren()) do
@@ -134,41 +145,53 @@ local function AutoGardenCycle()
 			-- 1. Equip seed tool and plant
 			equipSeedTool()
 			task.wait(0.2)
+
 			local args = {
-				[1] = Vector3.new(51.353553771972656, 0.1355232298374176, -100.98896789550781),
-				[2] = "Carrot"
+				[1] = plotPosition,
+				[2] = foodName
 			}
-
-			game:GetService("ReplicatedStorage").GameEvents.Plant_RE:FireServer(unpack(args))
-
+			ReplicatedStorage.GameEvents.Plant_RE:FireServer(unpack(args))
 			print("[AUTO] Planted:", foodName)
+
+			task.wait(0.2) -- Ensure planting
+			unequipTool() -- Unequip seed tool
 			
 			-- 2. Wait for plant to grow
 			task.wait(8)
-			equipSeedTool()
 			-- 3. Harvest
+			task.wait(0.5)
 			simulateMouseClickAt(plotPosition)
 			print("[AUTO] Harvested plant")
 
 			-- 4. Equip food tool for feeding
 			equipFoodTool()
-
+			task.wait(0.2)
 			-- 5. Feed hungry pets
 			local petIds = getAllPetIds()
 			for _, petId in ipairs(petIds) do
 				if petNeedsFood(petId) then
-					local feedArgs = {
-						[1] = "Feed",
-						[2] = petId
-					}
-					ReplicatedStorage.GameEvents.ActivePetService:FireServer(unpack(feedArgs))
-					print("[AUTO] Fed pet with ID:", petId)
+					equipFoodTool()
+					task.wait(0.1)
+					local success, err = pcall(function()
+						local feedArgs = {
+							[1] = "Feed",
+							[2] = petId
+						}
+						ReplicatedStorage.GameEvents.ActivePetService:FireServer(unpack(feedArgs))
+					end)
+
+					if success then
+						print("[AUTO] Fed pet with ID:", petId)
+					else
+						warn("[AUTO] Feeding failed for pet", petId, "->", err)
+						task.wait(1)
+						unequipTool()
+					end
 					task.wait(0.2)
 				else
 					print("[AUTO] Pet", petId, "is not hungry.")
 				end
 			end
-
 			task.wait(1)
 		end
 	end)()
@@ -192,6 +215,81 @@ local AutoGardenToggle = SeedBuy:CreateToggle({
 
 
 
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+
+local player = Players.LocalPlayer
+local backpack = player:WaitForChild("Backpack")
+
+local AutoSubmitFox = false
+local mutationIncludes = { "tranq", "corrupt" }
+
+-- === FUNCTIONS ===
+
+-- Equip item that includes all specified keywords
+local function equipItemWithKeywords(keywords)
+	for _, tool in ipairs(backpack:GetChildren()) do
+		if tool:IsA("Tool") then
+			local name = tool.Name:lower()
+			local matchesAll = true
+
+			for _, keyword in ipairs(keywords) do
+				if not name:find(keyword) then
+					matchesAll = false
+					break
+				end
+			end
+
+			if matchesAll then
+				tool.Parent = player.Character
+				print("[AUTO] Equipped:", tool.Name)
+				return true
+			end
+		end
+	end
+	warn("[AUTO] No tool found with keywords:", table.concat(keywords, ", "))
+	return false
+end
+
+-- Submit to fox once
+local function submitToFox()
+	if equipItemWithKeywords(mutationIncludes) then
+		task.wait(0.2)
+	end
+
+	local args = { "SubmitToFox" }
+	ReplicatedStorage.GameEvents.ZenQuestRemoteEvent:FireServer(unpack(args))
+	print("[AUTO] Submitted to fox.")
+end
+
+-- Repeated loop while toggle is on
+local function startAutoSubmit()
+	coroutine.wrap(function()
+		while AutoSubmitFox do
+			submitToFox()
+			task.wait(5) -- Adjust delay as needed
+		end
+	end)()
+end
+
+-- === UI Toggle ===
+local AutoSubmitToggle = SeedBuy:CreateToggle({
+	Name = "Auto Submit to Fox",
+	CurrentValue = false,
+	Flag = "ToggleAutoSubmitFox",
+	Callback = function(Value)
+		AutoSubmitFox = Value
+		if AutoSubmitFox then
+			startAutoSubmit()
+		end
+	end,
+})
+
+
+
+
+
+
 
 local PlantCarrot = SeedBuy:CreateButton({
 	Name = "Plant Carrot",
@@ -201,7 +299,7 @@ local PlantCarrot = SeedBuy:CreateButton({
 		wait(0.1)
 		local args = {
 			[1] = Vector3.new(54.1524314880371094, 0.13552513718605042, 20.11961364746094),
-			[2] = "BlueBerry"
+			[2] = "Carrot"
 		}
 
 		game:GetService("ReplicatedStorage").GameEvents.Plant_RE:FireServer(unpack(args))
@@ -266,9 +364,12 @@ local function getEggsFromGUI()
 end
 
 -- ✅ Egg selection dropdown
+local selectedEggs = {}
+
+-- Create dropdown once using current egg list
 local EggDropdown = SeedBuy:CreateDropdown({
 	Name = "Select Eggs to Buy",
-	Options = getEggsFromGUI(), -- Load from GUI
+	Options = getEggsFromGUI(), -- Use once at UI load
 	CurrentOption = {},
 	MultipleOptions = true,
 	Flag = "EggDropdown",
@@ -277,7 +378,6 @@ local EggDropdown = SeedBuy:CreateDropdown({
 	end,
 })
 
--- ✅ Coroutine to auto-buy eggs
 local autoBuyingEggs = false
 
 local AutoBuyEggsToggle = SeedBuy:CreateToggle({
@@ -290,11 +390,6 @@ local AutoBuyEggsToggle = SeedBuy:CreateToggle({
 			coroutine.wrap(function()
 				while autoBuyingEggs do
 					task.wait(1)
-
-					-- Refresh dropdown options every loop
-					local newOptions = getEggsFromGUI()
-					EggDropdown:UpdateOptions(newOptions)
-
 					for _, egg in ipairs(selectedEggs) do
 						ReplicatedStorage.GameEvents.BuyPetEgg:FireServer(egg)
 						print("[EGG] Bought:", egg)
@@ -305,20 +400,19 @@ local AutoBuyEggsToggle = SeedBuy:CreateToggle({
 	end,
 })
 
-
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local player = Players.LocalPlayer
 
 local SelectedSeeds = {}
 
--- 🔁 Get available seed names from GUI
+-- Static list read once from GUI at the time of UI creation
 local function getSeedListFromGUI()
 	local seedFrame = player.PlayerGui:WaitForChild("Seed_Shop"):WaitForChild("Frame"):WaitForChild("ScrollingFrame")
 	local seeds = {}
 
 	for _, item in ipairs(seedFrame:GetChildren()) do
-		if item:IsA("Frame") and not item.Name:find("Padding") then
+		if item:IsA("Frame") and not item.Name:lower():find("padding") then
 			table.insert(seeds, item.Name)
 		end
 	end
@@ -326,7 +420,6 @@ local function getSeedListFromGUI()
 	return seeds
 end
 
--- ⬇️ Dynamic dropdown for selecting seeds
 local SeedDropdown = SeedBuy:CreateDropdown({
 	Name = "Select Seeds to Auto Buy",
 	Options = getSeedListFromGUI(),
@@ -338,7 +431,6 @@ local SeedDropdown = SeedBuy:CreateDropdown({
 	end,
 })
 
--- 🔁 Seed auto-buy loop
 local runningAutoBuySeeds = false
 
 local AutoBuySeedsToggle = SeedBuy:CreateToggle({
@@ -351,14 +443,10 @@ local AutoBuySeedsToggle = SeedBuy:CreateToggle({
 			coroutine.wrap(function()
 				while runningAutoBuySeeds do
 					task.wait(1)
-
-					-- Auto-refresh dropdown if shop changes
-					local newOptions = getSeedListFromGUI()
-					SeedDropdown:UpdateOptions(newOptions)
-
 					for _, seed in ipairs(SelectedSeeds) do
-						ReplicatedStorage.GameEvents.BuySeedStock:FireServer(seed)
-						print("[SEED] Bought:", seed)
+						local seedName = seed
+						ReplicatedStorage.GameEvents.BuySeedStock:FireServer(seedName)
+						print("[SEED] Bought:", seedName)
 					end
 				end
 			end)()
@@ -369,45 +457,28 @@ local AutoBuySeedsToggle = SeedBuy:CreateToggle({
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
 local player = Players.LocalPlayer
-local selectedGearItems = {}
+
 local selectedMerchantItems = {}
 
--- ✅ Pull items from GUI dynamically
-local function getGearShopItemsFromGUI()
-	local gearFrame = player.PlayerGui:WaitForChild("Gear_Shop"):WaitForChild("Frame"):WaitForChild("ScrollingFrame")
-	local itemNames = {}
+-- ✅ Get merchant item names dynamically from the GUI
+local function getMerchantItemsFromGUI()
+	local merchantFrame = player.PlayerGui:WaitForChild("Gear_Shop"):WaitForChild("Frame"):WaitForChild("ScrollingFrame")
+	local items = {}
 
-	for _, child in ipairs(gearFrame:GetChildren()) do
+	for _, child in ipairs(merchantFrame:GetChildren()) do
 		if child:IsA("Frame") and not child.Name:find("Padding") then
-			table.insert(itemNames, child.Name)
+			table.insert(items, child.Name)
 		end
 	end
 
-	return itemNames
+	return items
 end
 
--- ✅ Set up dropdown for dynamic gear shop items
-local GearDropdown = SeedBuy:CreateDropdown({
-	Name = "Select Gear Shop Items",
-	Options = getGearShopItemsFromGUI(), -- Initially loaded from GUI
-	CurrentOption = {},
-	MultipleOptions = true,
-	Flag = "GearDropdown",
-	Callback = function(options)
-		selectedGearItems = options
-	end,
-})
-
--- ✅ Optional: Manual list for Traveling Merchant items (update if GUI path known)
+-- ✅ Create dropdown ONCE with current GUI data
 local MerchantDropdown = SeedBuy:CreateDropdown({
 	Name = "Select Merchant Items",
-	Options = {
-		"Night Staff",
-		"Star Cellar",
-		"Mutation Spray Cloudtouched"
-	},
+	Options = getMerchantItemsFromGUI(),
 	CurrentOption = {},
 	MultipleOptions = true,
 	Flag = "MerchantDropdown",
@@ -416,31 +487,21 @@ local MerchantDropdown = SeedBuy:CreateDropdown({
 	end,
 })
 
--- ✅ Buying coroutine
-local autoBuyingGear = false
+-- ✅ Toggle for auto-buying merchant items
+local autoBuyMerchant = false
 
-local AutoBuyGear = SeedBuy:CreateToggle({
-	Name = "Auto Buy Gear + Merchant",
+local AutoBuyMerchantToggle = SeedBuy:CreateToggle({
+	Name = "Auto Buy Merchant Items",
 	CurrentValue = false,
-	Flag = "ToggleAutoBuyGearShop",
+	Flag = "ToggleAutoBuyMerchant",
 	Callback = function(Value)
-		autoBuyingGear = Value
-		if autoBuyingGear then
+		autoBuyMerchant = Value
+		if autoBuyMerchant then
 			coroutine.wrap(function()
-				while autoBuyingGear do
+				while autoBuyMerchant do
 					task.wait(1)
-
-					-- Refresh gear item list (in case it updates)
-					local currentOptions = getGearShopItemsFromGUI()
-					GearDropdown:UpdateOptions(currentOptions)
-
-					for _, item in ipairs(selectedGearItems) do
-						ReplicatedStorage.GameEvents.BuyGearStock:FireServer(item)
-						print("[GEAR] Bought:", item)
-					end
-
 					for _, item in ipairs(selectedMerchantItems) do
-						ReplicatedStorage.GameEvents.BuyTravelingMerchantShopStock:FireServer(item)
+						ReplicatedStorage.GameEvents.BuyGearStock:FireServer(item)
 						print("[MERCHANT] Bought:", item)
 					end
 				end
@@ -448,6 +509,7 @@ local AutoBuyGear = SeedBuy:CreateToggle({
 		end
 	end,
 })
+
 
 
 local MiscTab = Window:CreateTab("Misc", nil) -- Title, Image
